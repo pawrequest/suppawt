@@ -1,0 +1,33 @@
+[user]
+	email = paw@pawrequest.com
+	name = paw
+
+[init]
+	defaultBranch = main
+
+[alias]
+	cap = "!f() { git add . && git commit -m \"$1\" && git push origin main; }; f"
+
+[core]
+	editor = nano -l
+	excludesfile = .ignore
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+# windows
+[includeIf "gitdir/i:C:/"]
+	path = .gitconfig-win
+[includeIf "gitdir/i:D:/"]
+	path = .gitconfig-win
+[includeIf "gitdir/i:E:/"]
+	path = .gitconfig-win
+
+	
+# linux
+[includeIf "gitdir/i:/mnt/"]
+	path = .gitconfig-wsl
+

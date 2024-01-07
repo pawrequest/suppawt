@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# But re-include everything
+!*
+
+# apart from git itself and toplevel idea
+.git
+/.idea
