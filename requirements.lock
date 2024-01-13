@@ -7,3 +7,13 @@
 #   all-features: false
 
 -e file:.
+annotated-types==0.6.0
+colorama==0.4.6
+greenlet==3.0.3
+loguru==0.7.2
+pydantic==2.5.3
+pydantic-core==2.14.6
+sqlalchemy==2.0.25
+sqlmodel==0.0.14
+typing-extensions==4.9.0
+win32-setctime==1.1.0
