@@ -24,7 +24,7 @@ class SQLModelBot:
         self.backup_target = backup_target
         self.session = session
         self.json_name_to_model_map = json_name_to_model_map
-        self.output_dir = output_dir or backup_target.parent
+        self.output_dir = output_dir or self.backup_target.parent
         self.restore_target = restore_target or backup_target
 
         if self.output_dir.is_file():
