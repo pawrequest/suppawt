@@ -20,16 +20,12 @@ class SQLModelBot:
             backup_target: Path,
             restore_target: Path = None,
             output_dir: Path = None,
-            copy_and_prune: bool = True,
-            sleep_time: int = 24 * 60 * 60,
     ):
         self.backup_target = backup_target
-        self.restore_target = restore_target or backup_target
         self.session = session
         self.json_name_to_model_map = json_name_to_model_map
         self.output_dir = output_dir or backup_target.parent
-        self.copy_and_prune = copy_and_prune
-        self.sleep_time = sleep_time
+        self.restore_target = restore_target or backup_target
 
         if self.output_dir.is_file():
             raise FileExistsError("Output directory is a file")
@@ -41,7 +37,7 @@ class SQLModelBot:
             raise NotImplementedError("Backup Target is a directory")
 
     @classmethod
-    def from_env(cls, session, json_to_model_map, copy_and_prune: bool = True) -> BackupSQLModel:
+    def from_env(cls, session, json_to_model_map, copy_and_prune: bool = True) -> SQLModelBot:
         target = Path(os.environ.get("BACKUP_TARGET", ""))
         restore_target = Path(os.environ.get("RESTORE_TARGET", ""))
         if not target.exists():
@@ -56,27 +52,19 @@ class SQLModelBot:
             json_name_to_model_map=json_to_model_map,
             backup_target=target,
             restore_target=restore_target,
-            copy_and_prune=copy_and_prune,
         )
 
-    async def run(self, interval: int = None):
-        """Continuously backup the database to json every interval seconds"""
-        interval = interval or self.sleep_time
-        logger.info(f"Initialised, backing up every {interval / 60} minutes")
+    async def run(self, sleep_time: int = 24 * 60 * 60):
+        logger.info(f"Initialised, backing up every {sleep_time / 60} minutes")
         while True:
             logger.debug("Waking")
             await self.backup()
-            #
-            # Pruner(
-            #     output_dir=self.output_dir,
-            #     backup_target=self.backup_target,
-            # ).copy_and_prune()
 
-            if interval == 0:
+            if sleep_time == 0:
                 logger.info("One-Time backup complete, exiting")
                 raise SystemExit()
-            logger.debug(f"Sleeping for {interval} seconds")
-            await asyncio.sleep(interval)
+            logger.debug(f"Sleeping for {sleep_time} seconds")
+            await asyncio.sleep(sleep_time)
 
     async def backup(self):
         backup_json = await self.make_backup_json()
