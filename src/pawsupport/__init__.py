@@ -1,4 +1,34 @@
+import hashlib
 import os
+
+from .logger_paw.logger_config_loguru import get_logger
+from .backup_paw.sqlmodel_backup import SQLModelBot
+from .backup_paw.copy_prune import Pruner
+
+
+def hash_simple_md5(data: list):
+    return hashlib.md5(",".join(data).encode()).hexdigest()
+
+
+def get_hash(obj: object):
+    mapped = []
+    if hasattr(obj, "get_hash"):
+        return obj.get_hash()
+
+    if hasattr(obj, "reddit_id"):
+        mapped.append(obj.reddit_id)
+
+    if hasattr(obj, "date"):
+        mapped.append(str(obj.date))
+
+    if hasattr(obj, "title"):
+        mapped.append(obj.title)
+    if hasattr(obj, "name"):
+        mapped.append(obj.name)
+
+    if not mapped:
+        raise ValueError(f"Can't find any hashable attributes on {obj}")
+    return hash_simple_md5(mapped)
 
 
 def param_or_env(env_key: str, value: str | None, none_is_false=False) -> str | bool:
