@@ -16,14 +16,14 @@ class SQLModelBot:
     def __init__(
             self,
             session: Session,
-            json_name_to_model_map: dict,
+            model_map: dict,
             backup_target: Path,
             restore_target: Path = None,
             output_dir: Path = None,
     ):
         self.backup_target = backup_target
         self.session = session
-        self.json_name_to_model_map = json_name_to_model_map
+        self.json_name_to_model_map = model_map
         self.output_dir = output_dir or backup_target.parent
         self.restore_target = restore_target or backup_target
 
@@ -49,7 +49,7 @@ class SQLModelBot:
 
         return cls(
             session=session,
-            json_name_to_model_map=json_to_model_map,
+            model_map=json_to_model_map,
             backup_target=target,
             restore_target=restore_target,
         )
