@@ -29,19 +29,19 @@ class Pruner(object):
         }
 
     def copy_and_prune(self):
-        logger.debug("Pruning backups")
+        logger.debug("Pruning backups", category="BACKUP")
         self._create_backup_dirs()
         self._make_backup()
         self._prune_backups()
 
-        logger.debug("Pruning complete")
+        logger.debug("Pruning complete", category="BACKUP")
 
     def _create_backup_dirs(self):
         for period in self.intervals:
             backup_dir = self.output_dir / period
             if not backup_dir.exists():
                 backup_dir.mkdir(parents=True, exist_ok=True)
-                logger.info(f"Created backup directory: {backup_dir}")
+                logger.info(f"Created backup directory: {backup_dir}", category="BACKUP")
 
     def _make_backup(self):
         input_file = Path(self.backup_target)
@@ -50,16 +50,18 @@ class Pruner(object):
         dated_filename = f"{input_file.stem}-{self.backup_date}{input_file.suffix}"
         daily_file = root_dir / "day" / dated_filename
         shutil.copy(input_file, daily_file)
-        logger.info(f"Backup created at {daily_file}")
+        logger.info(f"Backup created at {daily_file}", category="BACKUP")
 
         for period in self.intervals:
             period_dir = root_dir / period
             if self.always_copy or self._should_copy_to_period(period):
                 shutil.copy(daily_file, period_dir)
-                logger.info(f"{period}ly backup copied to {period_dir}")
+                logger.info(f"{period}ly backup copied to {period_dir}", category="BACKUP")
 
     def _should_copy_to_period(self, period):
-        backup_date = datetime.strptime(self.backup_date, "%Y-%m-%d") if self.backup_date else datetime.now()
+        backup_date = (
+            datetime.strptime(self.backup_date, "%Y-%m-%d") if self.backup_date else datetime.now()
+        )
         if period == "week" and backup_date.weekday() == 0:
             return True
         if period == "month" and backup_date.day == 1:
@@ -75,4 +77,4 @@ class Pruner(object):
 
             for file in all_files[retention:]:
                 file.unlink()
-                logger.info(f"Removed old backup: {file}")
+                logger.info(f"Removed old backup: {file}", category="BACKUP")

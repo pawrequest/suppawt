@@ -2,7 +2,7 @@ import asyncio
 
 from .copy_prune import Pruner
 from .sqlmodel_backup import SQLModelBot
-from ..async_support import quiet_cancel_as
+from ..async_ps import quiet_cancel_as
 
 
 @quiet_cancel_as

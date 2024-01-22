@@ -130,3 +130,12 @@ def nav_link(model: RoutableModel):
         active=f"startswith:{model.rout_prefix()}",
     )
     return link
+
+
+def ui_link(title: str, url: str, on_click=None, class_name="") -> c.Link:
+    if not url and not on_click:
+        logger.error("No url or on_click")
+        return c.Link(components=[c.Text(text="---")])
+    on_click = on_click or GoToEvent(url=url)
+    link = c.Link(components=[c.Text(text=title)], on_click=on_click, class_name=class_name)
+    return link

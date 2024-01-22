@@ -76,7 +76,7 @@ class SQLModelBot:
         with open(self.backup_target, "w") as f:
             json.dump(backup_json, f, indent=4)
         logger.info(
-            f"Saved {sum(len(v) for v in backup_json.values())} models to {self.backup_target}")
+            f"Saved {sum(len(v) for v in backup_json.values())} models to {self.backup_target}", category="BACKUP")
 
         return backup_json
 
@@ -90,7 +90,7 @@ class SQLModelBot:
         }
         backup_up_model_strs = [f"{len(backup_json[model])} {model}s" for model in backup_json if
                                 backup_json[model]]
-        logger.info(f"Dumped {', '.join(backup_up_model_strs)} to json")
+        logger.info(f"Dumped {', '.join(backup_up_model_strs)} to json", category="BACKUP")
         return backup_json
 
     def restore(self, target=None):
