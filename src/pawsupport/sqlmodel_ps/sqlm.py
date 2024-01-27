@@ -4,8 +4,8 @@ from typing import Sequence
 from loguru import logger
 from sqlmodel import SQLModel, Session, select
 
-from ..misc_ps import get_hash, instance_log_str, matches_str, one_in_other, snake_name, \
-    snake_name_s, title_or_name_val, title_or_name_var
+from ..misc_ps import instance_log_str, matches_str, one_in_other
+from ..get_set import title_or_name_val, snake_name, snake_name_s, get_hash, title_or_name_var
 from ..types_ps import HasGetHash, HasTitleOrName
 
 
