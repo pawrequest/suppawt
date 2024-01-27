@@ -1,31 +1,51 @@
-"""Import and export the database to json on a schedule"""
+"""Import and export SQLModel database session to json once or on a schedule"""
 from __future__ import annotations
 
 import asyncio
 import json
-import os
 from pathlib import Path
 
 from sqlmodel import Session, select
 from loguru import logger
 
+from .copy_prune import Pruner
+from ..async_ps import quiet_cancel_as
+
+
+@quiet_cancel_as
+async def backup_copy_prune(backupbot: SQLModelBot, pruner: Pruner, backup_sleep):
+    while True:
+        await backupbot.backup()
+        pruner.copy_and_prune()
+        await asyncio.sleep(backup_sleep)
+
 
 class SQLModelBot:
-    """Backup sqlmodel database to json on a schedule"""
+    """Backup sqlmodel database to json once (sleep_time=0), or on a schedule
+    params:
+        session: sqlmodel session
+        model_map: dict of {json_key: model_class}
+        backup_target: path to target json
+        sleep_time: time between backups in seconds, 0 for one-time backup
+        output_dir: directory to save backup json, defaults to backup_target parent
+        restore_target: path to restore from, defaults to backup_target
+    """
 
     def __init__(
             self,
             session: Session,
             model_map: dict,
             backup_target: Path,
-            restore_target: Path = None,
+            sleep_time: int = 0,
             output_dir: Path = None,
+            restore_target: Path = None,
     ):
         self.backup_target = backup_target
         self.session = session
-        self.json_name_to_model_map = model_map
+        self.json_key_to_model_map = model_map
         self.output_dir = output_dir or backup_target.parent
         self.restore_target = restore_target or backup_target
+        self.sleep_time = sleep_time
 
         if self.output_dir.is_file():
             raise FileExistsError("Output directory is a file")
@@ -36,33 +56,16 @@ class SQLModelBot:
         if self.backup_target.is_dir():
             raise NotImplementedError("Backup Target is a directory")
 
-    @classmethod
-    def from_env(cls, session, json_to_model_map, copy_and_prune: bool = True) -> SQLModelBot:
-        target = Path(os.environ.get("BACKUP_TARGET", ""))
-        restore_target = Path(os.environ.get("RESTORE_TARGET", ""))
-        if not target.exists():
-            logger.info(f"Backup target does not exist, creating: {target}")
-            target.touch(exist_ok=True)
-        if not restore_target.exists():
-            restore_target = target
-            logger.warning(f"Restore target does not exist, using backup target: {target}")
-
-        return cls(
-            session=session,
-            model_map=json_to_model_map,
-            backup_target=target,
-            restore_target=restore_target,
-        )
-
-    async def run(self, sleep_time: int = 24 * 60 * 60):
-        logger.info(f"Initialised, backing up every {sleep_time / 60} minutes")
+    async def run(self):
+        sleep_time = self.sleep_time
+        logger.info(f"Initialised, backing up every {sleep_time} seconds")
         while True:
             logger.debug("Waking")
             await self.backup()
 
             if sleep_time == 0:
                 logger.info("One-Time backup complete, exiting")
-                raise SystemExit()
+                return
             logger.debug(f"Sleeping for {sleep_time} seconds")
             await asyncio.sleep(sleep_time)
 
@@ -76,12 +79,13 @@ class SQLModelBot:
         with open(self.backup_target, "w") as f:
             json.dump(backup_json, f, indent=4)
         logger.info(
-            f"Saved {sum(len(v) for v in backup_json.values())} models to {self.backup_target}", category="BACKUP")
+            f"Saved {sum(len(v) for v in backup_json.values())} models to {self.backup_target}",
+            category="BACKUP")
 
         return backup_json
 
     async def make_backup_json(self, json_map=None, session=None):
-        json_map = json_map or self.json_name_to_model_map
+        json_map = json_map or self.json_key_to_model_map
         session = session or self.session
         backup_json = {
             model_name_in_json: [_.model_dump_json() for _ in
@@ -102,9 +106,9 @@ class SQLModelBot:
             logger.error(f"Error loading json: {e}")
             return
 
-        for json_name, model_class in self.json_name_to_model_map.items():
+        for json_key, model_class in self.json_key_to_model_map.items():
             added = 0
-            for json_string in backup_j.get(json_name):
+            for json_string in backup_j.get(json_key):
                 json_record = json.loads(json_string)
                 model_instance = model_class.model_validate(json_record)
 
@@ -119,7 +123,7 @@ class SQLModelBot:
                 self.session.add(model_instance)
                 added += 1
             if added:
-                logger.info(f"Loaded {added} {json_name} from {target}")
+                logger.info(f"Loaded {added} {json_key} from {target}")
 
         if self.session.new:
             self.session.commit()
