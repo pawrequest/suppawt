@@ -10,7 +10,9 @@ Version: |release|
    :maxdepth: 2
    :caption: Contents:
 
-   backup
+   backup_ps/pruner
+   backup_ps/sqlmodel
+
 
 
 

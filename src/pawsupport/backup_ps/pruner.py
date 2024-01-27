@@ -1,8 +1,5 @@
 """
-Create a backup directory structure for days weeks months and years
-Copy the backup file to the daily directory
-Copy the daily backup file to the weekly, monthly and yearly directories if the date is appropriate
-Prune the backup directories to the specified retention periods
+
 """
 
 import shutil

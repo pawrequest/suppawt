@@ -1,4 +1,4 @@
-from .copy_prune import Pruner
+from .pruner import Pruner
 
 try:
     from .sqlmodel_backup import SQLModelBot

@@ -9,9 +9,9 @@ from datetime import datetime
 from importlib.metadata import version as metadata_version # dont clash with version in sphinx
 
 project = 'PawSupport'
-copyright = '2024, PawRequest'
+# copyright = '2024, PawRequest'
 author = 'PawRequest'
-release = '0.0.1'
+# release = '0.0.1'
 
 year = datetime.now().year
 if year > 2024:
@@ -20,6 +20,7 @@ else:
     copyright = f'2024, {author}'
 
 release = metadata_version(project)
+print(f'******************************************************************** {release=}')
 
 
 # -- General configuration ---------------------------------------------------
