@@ -1,15 +1,13 @@
 [project]
 name = "pawsupport"
 version = "0.1.0"
-description = "Add your description here"
+description = "utils"
 authors = [
     { name = "paw", email = "paw@pawrequest.com" }
 ]
 
-# todo optional
 dependencies = [
     'loguru',
-    "sqlmodel>=0.0.14",
     'aiohttp',
 ]
 readme = "README.md"
@@ -32,6 +30,9 @@ doc = [
     "docx2pdf",
     "pysimplegui",
     "comtypes",
+]
+sphynx = [
+    "sphinx",
 ]
 [build-system]
 requires = ["hatchling"]

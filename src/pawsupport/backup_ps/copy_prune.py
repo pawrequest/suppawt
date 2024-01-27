@@ -62,15 +62,13 @@ class Pruner(object):
 
     def copy_and_prune(self):
         """
-        Copies the backup file to the daily directory and prunes backups according to the specified retention periods.
+        Copy backup file to daily and appropriate weekly, monthly, and yearly directories, creating dirs if needed.
+        Prune backups in each directory according to their retention periods.
         """
         logger.debug("Pruning backups", category="BACKUP")
-
         self._create_backup_dirs()
         self._make_backup()
         self._prune_backups()
-
-        logger.debug("Pruning complete", category="BACKUP")
 
     def _create_backup_dirs(self):
         """
@@ -90,9 +88,7 @@ class Pruner(object):
         root_dir = self.output_dir
 
         dated_filename = f"{input_file.stem}-{self.backup_date}{input_file.suffix}"
-        daily_file = root_dir / "day" / dated_filename
-        shutil.copy(input_file, daily_file)
-        logger.info(f"Backup created at {daily_file}", category="BACKUP")
+        daily_file = input_file.with_name(dated_filename)
 
         for period in self.retention_tuples:
             period_dir = root_dir / period.name
@@ -108,17 +104,24 @@ class Pruner(object):
         :return: True if the backup should be copied, False otherwise.
         """
         backup_date = datetime.strptime(self.backup_date, "%Y-%m-%d")
+        if period.name not in ["day", "week", "month", "year"]:
+            raise NotImplementedError(
+                f"Period must be day, week, month, or year, not {period.name}")
 
-        if period.name == "week" and backup_date.weekday() == 0:
+        if period.name == "day":
             return True
-        if period.name == "month" and backup_date.day == 1:
+        elif period.name == "week" and backup_date.weekday() == 0:
             return True
-        if period.name == "year" and backup_date.strftime("%j") == "001":
+        elif period.name == "month" and backup_date.day == 1:
+            return True
+        elif period.name == "year" and backup_date.strftime("%j") == "001":
             return True
         return False
 
     def _prune_backups(self):
-        """Prune the backup directories to the specified retention periods"""
+        """
+        Prunes backups in each directory according to their retention periods.
+        """
         for period in self.retention_tuples:
             backup_dir = self.output_dir / period.name
             all_files = sorted(backup_dir.iterdir(), key=lambda x: x.stat().st_mtime, reverse=True)
