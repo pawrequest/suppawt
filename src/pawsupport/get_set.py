@@ -3,7 +3,7 @@ import re
 from typing import Literal
 
 from pawsupport.convert import to_snake
-from .types_ps.types_ps import HasTitleOrName
+from .types_ps.typ import HasTitleOrName
 
 
 def title_or_name_val(obj: HasTitleOrName) -> str:

@@ -1,8 +1,10 @@
 import itertools
 
 from .doc_handler import DocHandler
-from .foss import LibreHandler, GmailSender
-from .ms import WordHandler, OutlookSender
+from pawsupport.office_ps.foss.gmail_handler import GmailHandler
+from pawsupport.office_ps.foss.libre_handler import LibreHandler
+from pawsupport.office_ps.ms.outlook_handler import OutlookHandler
+from pawsupport.office_ps.ms.word_hander import WordHandler
 from .system_tools import (
     check_word,
     check_excel,
@@ -21,14 +23,14 @@ class OfficeTools:
     @classmethod
     def microsoft(cls) -> 'OfficeTools':
         try:
-            return cls(WordHandler(), OutlookSender())
+            return cls(WordHandler(), OutlookHandler())
         except OSError:
             raise OSError('Microsoft Office tools are not installed')
 
     @classmethod
     def libre(cls) -> 'OfficeTools':
         try:
-            return cls(LibreHandler(), GmailSender())
+            return cls(LibreHandler(), GmailHandler())
         except OSError:
             raise OSError('LibreOffice tools are not installed')
 
@@ -38,7 +40,7 @@ class OfficeTools:
             raise OSError('Neither Microsoft nor LibreOffice tools are installed')
 
         doc_handler = WordHandler if check_word() else LibreHandler
-        email_handler = OutlookSender if check_outlook() else GmailSender
+        email_handler = OutlookHandler if check_outlook() else GmailHandler
 
         return cls(doc_handler(), email_handler())
 
@@ -62,9 +64,9 @@ def get_installed_combinations():
         doc_handlers.append(LibreHandler)
 
     if check_outlook():
-        email_handlers.append(OutlookSender)
+        email_handlers.append(OutlookHandler)
 
-    email_handlers.append(GmailSender)
+    email_handlers.append(GmailHandler)
 
     for doc_handler, email_handler in itertools.product(doc_handlers, email_handlers):
         yield OfficeTools(doc_handler(), email_handler())

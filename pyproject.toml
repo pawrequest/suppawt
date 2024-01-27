@@ -25,7 +25,14 @@ bs4 = [
 sqlmodel = [
     "sqlmodel>=0.0.14",
 ]
-
+doc = [
+    "docxtpl",
+    "pywin32",
+    "openpyxl",
+    "docx2pdf",
+    "pysimplegui",
+    "comtypes",
+]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

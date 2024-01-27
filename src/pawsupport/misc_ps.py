@@ -3,7 +3,8 @@ from typing import Literal, Sized
 
 from loguru import logger
 
-from pawsupport.get_set import title_or_name_val
+from .get_set import title_or_name_val
+from .types_ps import HasTitleOrName
 
 
 def printel(*els):  # elementtree elements
