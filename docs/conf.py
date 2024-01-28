@@ -22,7 +22,7 @@ copyright = f'2024, {author}'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx_autodoc_typehints',
-    'sphinx_readme',
+    # 'sphinx_readme',
     # 'sphinx.ext.napoleon',
     # 'sphinx.ext.todo',
 ]
