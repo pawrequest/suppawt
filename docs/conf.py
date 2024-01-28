@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 from datetime import datetime
-from importlib.metadata import version as metadata_version # dont clash with version in sphinx
+from importlib.metadata import version as metadata_version  # dont clash with version in sphinx
 
 project = 'PawSupport'
 # copyright = '2024, PawRequest'
@@ -22,12 +22,12 @@ else:
 release = metadata_version(project)
 print(f'******************************************************************** {release=}')
 
-
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx_autodoc_typehints',
     # 'sphinx.ext.napoleon',
     # 'sphinx.ext.todo',
 ]

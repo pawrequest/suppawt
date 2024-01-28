@@ -10,6 +10,9 @@ from docx2pdf import convert as convert_word  # type: ignore
 
 
 class DocHandler(ABC):
+    """
+    Abstract class for handling documents
+    """
     @abstractmethod
     def display_doc(self, doc_path: Path) -> Tuple[Any, Any]:
         raise NotImplementedError

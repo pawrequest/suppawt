@@ -1,7 +1,7 @@
 """
-
+Copy and prune backups - keep a certain number of daily, weekly, monthly, and yearly backups of the target file
 """
-
+from __future__ import annotations
 import shutil
 from datetime import datetime
 from pathlib import Path
@@ -10,23 +10,16 @@ from typing import Literal, NamedTuple
 from loguru import logger
 
 
-class RetentionPeriod(NamedTuple):
-    name: Literal["day", "week", "month", "year"]
-    retain: int
-
-
 class Pruner(object):
     """
-    Copy and prune backups
-
     :param backup_target: The file to back up.
-    :param output_dir: The directory where backups will be stored. Defaults to the parent directory of the backup target.
-    :param day_retain: The number of daily backups to retain. Defaults to 7.
-    :param week_retain: The number of weekly backups to retain. Defaults to 4.
-    :param month_retain: The number of monthly backups to retain. Defaults to 12.
-    :param year_retain: The number of yearly backups to retain. Defaults to 5.
-    :param always_copy: If True, always copy the daily backup to other periods for debugging/testing. Defaults to False.
-    :param backup_date: The date to use in the backup's name. Defaults to today's date for debugging/testing.
+    :param output_dir: The directory where backups will be stored. Defaults to the parent directory of the target.
+    :param day_retain: The number of daily backups to retain.
+    :param week_retain: The number of weekly backups to retain.
+    :param month_retain: The number of monthly backups to retain.
+    :param year_retain: The number of yearly backups to retain.
+    :param _always_copy: Do all backups regardless of date(debug/testing).
+    :param _backup_date: Date to use in filenames. Defaults to today (debug/testing).
     """
 
     def __init__(
@@ -37,13 +30,13 @@ class Pruner(object):
             week_retain=4,
             month_retain=12,
             year_retain=5,
-            always_copy=False,
-            backup_date=None,
+            _always_copy=False,
+            _backup_date=None,
     ):
         self.backup_target = backup_target
         self.output_dir = output_dir or backup_target.parent
-        self.always_copy = always_copy
-        self.backup_date = backup_date if backup_date else datetime.now().strftime("%Y-%m-%d")
+        self.always_copy = _always_copy
+        self.backup_date = _backup_date if _backup_date else datetime.now().strftime("%Y-%m-%d")
         self.retention_tuples = [
             RetentionPeriod("day", day_retain),
             RetentionPeriod("week", week_retain),
@@ -64,12 +57,12 @@ class Pruner(object):
         """
         logger.debug("Pruning backups", category="BACKUP")
         self._create_backup_dirs()
-        self._make_backup()
-        self._prune_backups()
+        self.make_backups()
+        self.prune_backups()
 
     def _create_backup_dirs(self):
         """
-        Creates the backup directory structure for daily, weekly, monthly, and yearly backups.
+        Create directory structure for daily, weekly, monthly, and yearly.
         """
         for period in self.retention_tuples:
             backup_dir = self.output_dir / period.name
@@ -77,9 +70,9 @@ class Pruner(object):
                 backup_dir.mkdir(parents=True, exist_ok=True)
                 logger.info(f"Created backup directory: {backup_dir}", category="BACKUP")
 
-    def _make_backup(self):
+    def make_backups(self):
         """
-        Copies the backup file to the daily directory and, if applicable, to the weekly, monthly, and yearly directories.
+        Copy ``self.backup_target`` to daily and if applicable weekly, monthly, and yearly directories.
         """
         input_file = Path(self.backup_target)
         root_dir = self.output_dir
@@ -89,16 +82,14 @@ class Pruner(object):
 
         for period in self.retention_tuples:
             period_dir = root_dir / period.name
-            if self.always_copy or self._should_copy(period):
+            if self.always_copy or self.should_copy(period):
                 shutil.copy(daily_file, period_dir)
                 logger.info(f"{period}ly backup copied to {period_dir}", category="BACKUP")
 
-    def _should_copy(self, period: RetentionPeriod):
+    def should_copy(self, period: RetentionPeriod) -> bool:
         """
-        Returns true if self.backup_date is first of the period.
-
         :param period: The period to check (day, week, month, or year).
-        :return: True if the backup should be copied, False otherwise.
+        :return: True if the backup should be copied.
         """
         backup_date = datetime.strptime(self.backup_date, "%Y-%m-%d")
         if period.name not in ["day", "week", "month", "year"]:
@@ -115,7 +106,7 @@ class Pruner(object):
             return True
         return False
 
-    def _prune_backups(self):
+    def prune_backups(self):
         """
         Prunes backups in each directory according to their retention periods.
         """
@@ -126,3 +117,8 @@ class Pruner(object):
             for file in all_files[period.retain:]:
                 file.unlink()
                 logger.info(f"Removed old backup: {file}", category="BACKUP")
+
+
+class RetentionPeriod(NamedTuple):
+    name: Literal["day", "week", "month", "year"]
+    retain: int

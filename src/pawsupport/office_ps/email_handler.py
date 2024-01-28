@@ -8,6 +8,9 @@ from win32com.universal import com_error
 
 
 class EmailHandler(ABC):
+    """
+    Abstract class for handling emails
+    """
     @abstractmethod
     def send_email(self, email: 'Email') -> None:
         ...
@@ -15,6 +18,9 @@ class EmailHandler(ABC):
 
 @dataclass
 class Email:
+    """
+    Dataclass for email handling
+    """
     to_address: str
     subject: str
     body: str
@@ -25,6 +31,9 @@ class Email:
 
 
 class EmailError(Exception):
+    """
+    Exception for email handling
+    """
     ...
 
 

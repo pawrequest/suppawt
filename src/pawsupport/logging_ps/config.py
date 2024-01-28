@@ -1,10 +1,22 @@
 import inspect
 import logging
 
-from src.pawsupport.logger_paw.consts import FILE_FORMAT_STR, CONSOLE_FORMAT_STR
+from pawsupport.logging_ps.consts import CONSOLE_FORMAT_STR, FILE_FORMAT_STR
+
+"""
+logging configuration for builtin logger
+"""
 
 
 def configure_logging(logger_name=None, log_file=None, level=logging.DEBUG):
+    """
+    Configure logging
+
+    :param logger_name: name of logger
+    :param log_file: path to log file
+    :param level: logging level
+    :return: logger
+    """
     if logger_name is None:
         frame = inspect.stack()[1]
         module = inspect.getmodule(frame[0])

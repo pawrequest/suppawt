@@ -1,5 +1,8 @@
-from dataclasses import dataclass
 from typing import Protocol, Sequence, runtime_checkable
+
+"""
+Utiluty types.
+"""
 
 
 class Writer(Protocol):
@@ -11,34 +14,12 @@ class Writer(Protocol):
 
 
 class HasGetHash(Protocol):
+    """
+    Protocol for objects that have a get_hash method
+    """
+
     def get_hash(self) -> int:
         ...
-
-
-@dataclass
-class Named:
-    name: str
-
-
-@dataclass
-class Titled:
-    title: str
-
-
-@dataclass
-class Urled:
-    url: str
-
-
-@dataclass
-class Slugged:
-    slug: str
-
-
-@dataclass
-class SlugAndName:
-    slug: str
-    name: str
 
 
 @runtime_checkable
@@ -66,23 +47,10 @@ HasSlugOrUrl = HasSlug | HasUrl
 
 
 def has_title_or_name_and_slug_or_url(obj: HasTitleOrName | HasSlugOrUrl) -> bool:
+    """
+    Check if an object has both (title or name) and (slug or url) attributes
+
+    :param obj: object to check
+    :return: True if object has both (title or name) and (slug or url) attributes, False otherwise
+    """
     return isinstance(obj, HasTitleOrName) and isinstance(obj, HasSlugOrUrl)
-
-
-# HasSlugOrUrlAndNameOrTitle = Union[HasSlugOrUrl, HasTitleOrName]
-
-
-# named = Named('named')
-# titled = Titled('titled')
-# urled = Urled('urled')
-# slugged = Slugged('slugged')
-#
-# slug_and_name = SlugAndName('slug', 'name')
-#
-# assert isinstance(named, HasName)
-# assert isinstance(titled, HasTitle)
-# assert isinstance(named, HasTitleOrName)
-# assert isinstance(titled, HasTitleOrName)
-# # assert isinstance(slug_and_name, HasSlugOrUrlAndNameOrTitle)
-# ...
-# assert has_title_or_name_and_slug_or_url(slug_and_name)

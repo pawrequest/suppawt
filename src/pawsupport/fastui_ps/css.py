@@ -1,3 +1,4 @@
+""" CSS classes for fastui """
 from __future__ import annotations
 
 stand = "text-center py-1 my-1"

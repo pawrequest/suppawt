@@ -1,13 +1,25 @@
 from __future__ import annotations
 
 import functools
+import logging
 import sys
 from typing import Literal
 
 from loguru import logger
 
+"""
+functions for configuring loguru
+"""
+
 
 def get_loguru(log_file, profile: Literal["local", "remote", "default"] = None) -> logger:
+    """
+    Configure loguru logger
+
+    :param log_file: path to log file
+    :param profile: log profile to use
+    :return: logger
+    """
     if profile == "local":
         logger.info("Using local log profile")
         terminal_format = log_fmt_local_terminal
@@ -35,7 +47,13 @@ BOT_COLOR = {
 }
 
 
-def log_fmt_local_terminal(record):
+def log_fmt_local_terminal(record: logging.LogRecord) -> str:
+    """
+    Format for local logging
+
+    :param record: log record
+    :return: formatted log record
+    """
     category = record["extra"].get("category", "General")
     bot_colour = BOT_COLOR.get(category, "white")
     category = f"{category:<9}"
@@ -50,11 +68,23 @@ def log_fmt_local_terminal(record):
 
 
 def coloured(msg: str, colour: str) -> str:
+    """
+    Colour a message
+
+    :param msg: message to colour
+    :param colour: colour to use
+    :return: coloured message
+    """
     return f"<{colour}>{msg}</{colour}>"
 
 
-def log_fmt_server_terminal(record):
-    """Format for server-side logging"""
+def log_fmt_server_terminal(record: logging.LogRecord) -> str:
+    """
+    Format for server-side logging
+
+    :param record: log record
+    :return: formatted log record
+    """
     category = record["extra"].get("category", "General")
     category = f"{category:<9}"
     colour = BOT_COLOR.get(category, "white")
@@ -65,7 +95,15 @@ def log_fmt_server_terminal(record):
     return f"<lvl>{record['level']: <7} </lvl>| {bot_says} | {file_line}\n"
 
 
-def logger_wraps(*, entry=True, exit=True, level="DEBUG"):
+def logger_wraps(*, entry=True, exit=True, level="DEBUG") -> callable:
+    """
+    Decorator to log function entry and exit
+
+    :param entry: log entry
+    :param exit: log exit
+    :param level: log level
+    :return: decorator
+    """
     def wrapper(func):
         name = func.__name__
 

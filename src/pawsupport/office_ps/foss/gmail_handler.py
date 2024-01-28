@@ -1,3 +1,8 @@
+import webbrowser
+
+from pawsupport.office_ps.email_handler import EmailHandler, Email
+
+
 class GmailHandler(EmailHandler):
     def send_email(self, email: Email) -> None:
         compose_link = gmail_compose_link(email)

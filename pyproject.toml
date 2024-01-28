@@ -16,6 +16,7 @@ requires-python = ">= 3.12"
 [project.optional-dependencies]
 fastui = [
     "fastui",
+    "fastapi",
 ]
 bs4 = [
     "beautifulsoup4",
@@ -43,6 +44,9 @@ managed = true
 dev-dependencies = [
     'pytest',
     'pytest-asyncio',
+    'sphinx',
+    'sphinx-autodoc-typehints',
+    'sphinx-rtd-theme',
 ]
 
 [tool.hatch.metadata]

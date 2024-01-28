@@ -1,5 +1,14 @@
+import platform
+import subprocess
+import webbrowser
+from pathlib import Path
+from typing import Any
+
+from pawsupport.office_ps.doc_handler import DocHandler
+
+
 class LibreHandler(DocHandler):
-    def display_doc(self, doc_path: Path) -> Tuple[Any, Any]:
+    def display_doc(self, doc_path: Path) -> tuple[Any, Any]:
         try:
             process = subprocess.Popen(
                 ['soffice', str(doc_path)],

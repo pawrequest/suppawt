@@ -1,3 +1,9 @@
+from win32com.client import Dispatch
+from win32com.universal import com_error
+
+from pawsupport.office_ps.email_handler import EmailHandler, Email, EmailError
+
+
 class OutlookHandler(EmailHandler):
     def send_email(self, email: Email):
         try:

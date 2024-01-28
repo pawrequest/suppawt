@@ -1,23 +1,40 @@
+""""
+FastUI support functions
+"""
+from __future__ import annotations
+
 from typing import List, Protocol, Sequence
 
 from fastui.events import BackEvent, GoToEvent
 from loguru import logger
 
-from .css import COL_DFLT, ROW
-
 try:
     from fastui import AnyComponent, components as c
-except ImportError:
+except ImportError as e:
     logger.error("fastui not installed")
+    raise e
+
+"""
+FastUI support
+"""
+
+STANDARD = "text-center py-1 my-1"
+COL_4 = f"col-4 {STANDARD}"
+ROW = f'my-1 border border-bottom border-secondary rounded shadow-sm {STANDARD}'
+HEAD = f'my-1 col border {STANDARD}'
 
 
-class RoutableModel(Protocol):
-    @classmethod
-    def rout_prefix(cls) -> str:
-        ...
+class FastUiMaker:
+    ...
 
 
 def Row(components: List[AnyComponent], class_name: str = ROW) -> c.Div:
+    """
+    Create a row of fastui components
+
+    :param components: a list of fastui components
+    :param class_name: css class names as a string
+    :returns: Div with class_name='row'+class_name"""
     try:
         # return c.Div(components=components, class_name="row")
         if not components:
@@ -28,7 +45,15 @@ def Row(components: List[AnyComponent], class_name: str = ROW) -> c.Div:
         logger.error(e)
 
 
-def Col(components: List[AnyComponent], class_name: str = COL_DFLT) -> c.Div:
+def Col(components: List[AnyComponent], class_name: str = COL_4) -> c.Div:
+    """
+    Create a column of fastui components
+
+    :param components: a list of fastui components
+    :param class_name: css class names as a string
+    :returns: Div with class_name='col'+class_name
+    """
+
     try:
         class_name = f"col {class_name}"
         return c.Div(components=components, class_name=class_name)
@@ -37,6 +62,13 @@ def Col(components: List[AnyComponent], class_name: str = COL_DFLT) -> c.Div:
 
 
 def empty_div(col=False, container=False) -> c.Div:
+    """
+    Create an empty div
+
+    :param col: if True, create an empty col
+    :param container: if True, create an empty container
+    :returns: Div with text '---'
+    """
     if col:
         return empty_col()
     elif container:
@@ -46,14 +78,32 @@ def empty_div(col=False, container=False) -> c.Div:
 
 
 def empty_col():
+    """
+    Create an empty col
+
+    :returns: Div with text '---' and class_name='col'
+    """
     return Col(components=[c.Text(text="---")])
 
 
 def empty_container():
+    """
+    Create an empty container
+
+    :returns: Div with text '---' and class_name='container'
+    """
     return Flex(components=[c.Text(text="---")])
 
 
 def Flex(components: list[AnyComponent], class_name="") -> c.Div:
+    """
+    Create a flex container
+
+    :param components: a list of fastui components
+    :param class_name: css class names as a string
+    :returns: Div with class_name='d-flex'+class_name
+    """
+
     logger.info("Flex")
     try:
         if not components:
@@ -70,6 +120,16 @@ def Flex(components: list[AnyComponent], class_name="") -> c.Div:
 
 def default_page(components: list[AnyComponent], title: str, navbar, header_class=None,
                  page_classname=None) -> list[AnyComponent]:
+    """
+    Create a default page
+
+    :param components: a list of fastui components
+    :param title: page title
+    :param navbar: navbar
+    :param header_class: css class names for header as a string
+    :param page_classname: css class names for page as a string
+    :returns: list of fastui components
+    """
     try:
         return [
             c.PageTitle(text=title),
@@ -87,10 +147,16 @@ def default_page(components: list[AnyComponent], title: str, navbar, header_clas
         logger.error(e)
 
 
-def empty_page(nav_bar) -> list[AnyComponent]:
+def empty_page(nav_bar=None) -> list[AnyComponent]:
+    """
+    Create an empty page
+
+    :param nav_bar: navbar
+    :returns: list of fastui components
+    """
     return [
         c.PageTitle(text="empty page"),
-        nav_bar,
+        (nav_bar if nav_bar else empty_div()),
         c.Page(
             components=[
                 c.Heading(text="durfault title"),
@@ -101,7 +167,12 @@ def empty_page(nav_bar) -> list[AnyComponent]:
     ]
 
 
-def default_footer():
+def default_footer() -> c.Footer:
+    """
+    Create a default footer
+
+    :returns: Footer with extra_text='extra durfault text' and a link to github
+    """
     return c.Footer(
         extra_text="extra durfault text",
         links=[
@@ -113,17 +184,34 @@ def default_footer():
     )
 
 
-def back_link():
+def back_link() -> c.Link:
+    """
+    Create a back link
+
+    :returns: Link with text='Back' and on_click=BackEvent()
+    """
     return c.Link(components=[c.Text(text="Back")], on_click=BackEvent())
 
 
-def nav_bar_(models: Sequence[RoutableModel]):
+def nav_bar_(models: Sequence[RoutableModel]) -> c.Navbar:
+    """
+    Create a navbar
+
+    :param models: a list of RoutableModel
+    :returns: Navbar with links to each RoutableModel
+    """
     return c.Navbar(
         links=[nav_link(_) for _ in models],
     )
 
 
-def nav_link(model: RoutableModel):
+def nav_link(model: RoutableModel) -> c.Link:
+    """
+    Create a navbar link
+
+    :param model: a RoutableModel
+    :returns: Link with text=model.__name__.title() and on_click=GoToEvent(url=model.rout_prefix())
+    """
     link = c.Link(
         components=[c.Text(text=model.__name__.title())],
         on_click=GoToEvent(url=model.rout_prefix()),
@@ -133,9 +221,28 @@ def nav_link(model: RoutableModel):
 
 
 def ui_link(title: str, url: str, on_click=None, class_name="") -> c.Link:
+    """
+    Create a link
+
+    :param title: link title
+    :param url: link url
+    :param on_click: on_click event
+    :param class_name: css class names as a string
+    :returns: Link with text=title and on_click=GoToEvent(url=url)
+    """
     if not url and not on_click:
         logger.error("No url or on_click")
         return c.Link(components=[c.Text(text="---")])
     on_click = on_click or GoToEvent(url=url)
     link = c.Link(components=[c.Text(text=title)], on_click=on_click, class_name=class_name)
     return link
+
+
+class RoutableModel(Protocol):
+    """
+    RoutableModel has ``rout_prefix`` classmethod
+    """
+
+    @classmethod
+    def rout_prefix(cls) -> str:
+        ...

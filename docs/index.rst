@@ -1,17 +1,23 @@
 .. include:: ../README.rst
 
-
+***************************************
 Welcome to PawSupport's documentation!
-======================================
+***************************************
 
 Version: |release|
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :maxdepth: 2
+    :caption: Contents:
 
-   backup_ps/pruner
-   backup_ps/sqlmodel
+    pages/backup
+    pages/misc
+    pages/fastui
+    pages/html
+    pages/logging
+    pages/office
+    pages/sqlmodel
+
 
 
 
