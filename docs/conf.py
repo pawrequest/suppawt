@@ -46,4 +46,4 @@ html_baseurl = "https://pawsupport.readthedocs.io/en/latest"
 
 readme_src_files = "index.rst"
 
-readme_docs_url_type = "code"
+readme_docs_url_type = "html"
