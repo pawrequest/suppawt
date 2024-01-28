@@ -32,7 +32,7 @@ doc = [
     "pysimplegui",
     "comtypes",
 ]
-sphynx = [
+sphinx = [
     "sphinx",
     'sphinx-autodoc-typehints',
     'sphinx-rtd-theme',
