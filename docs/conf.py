@@ -20,7 +20,6 @@ else:
     copyright = f'2024, {author}'
 
 release = metadata_version(project)
-print(f'******************************************************************** {release=}')
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -28,6 +27,7 @@ print(f'******************************************************************** {re
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx_autodoc_typehints',
+    'sphinx_readme',
     # 'sphinx.ext.napoleon',
     # 'sphinx.ext.todo',
 ]
@@ -40,3 +40,15 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'alabaster'
 html_static_path = ['_static']
+
+html_context = {
+    'display_github': True,
+    'github_user': 'PawRequest',
+    'github_repo': 'pawsupport',
+}
+
+html_baseurl = "https://sphinx-readme.readthedocs.io/en/latest"
+
+readme_src_files = "index.rst"
+
+readme_docs_url_type = "code"

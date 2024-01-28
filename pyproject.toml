@@ -47,6 +47,7 @@ dev-dependencies = [
     'sphinx',
     'sphinx-autodoc-typehints',
     'sphinx-rtd-theme',
+    'sphinx-readme',
 ]
 
 [tool.hatch.metadata]

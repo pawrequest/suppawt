@@ -4,7 +4,15 @@ from pawsupport.office_ps.email_handler import EmailHandler, Email
 
 
 class GmailHandler(EmailHandler):
+    """
+    GmailHandler opens a Gmail compose window with the email details.
+    """
     def send_email(self, email: Email) -> None:
+        """"
+        Opens a Gmail compose window with the email details.
+
+        :param email: Email object with details to send.
+        """
         compose_link = gmail_compose_link(email)
         webbrowser.open(compose_link)
         print(
@@ -14,6 +22,12 @@ class GmailHandler(EmailHandler):
 
 
 def gmail_compose_link(email: Email) -> str:
+    """
+    Returns a Gmail compose link with the email details.
+
+    :param email: Email object with details to send.
+    :return: Gmail compose link with the email details.
+    """
     to_encoded = email.to_address.replace('@', '%40')
     subject_encoded = email.subject.replace(' ', '%20')
     body_encoded = email.body.replace(' ', '%20')

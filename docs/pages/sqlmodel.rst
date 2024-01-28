@@ -1,6 +1,6 @@
-*************
+***********************
 SQLModel Utils:
-*************
+***********************
 
 .. automodule:: pawsupport.sqlmodel_ps.sqlm
     :members:
@@ -14,5 +14,4 @@ SQLModel Utils:
     :private-members:
     :member-order: bysource
 
--------------------------------
 

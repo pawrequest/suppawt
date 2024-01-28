@@ -5,7 +5,16 @@ from pawsupport.office_ps.email_handler import EmailHandler, Email, EmailError
 
 
 class OutlookHandler(EmailHandler):
+    """
+    Email handler for Outlook
+    """
     def send_email(self, email: Email):
+        """
+        Send email via Outlook
+
+        :param email: Email object
+        :return: None
+        """
         try:
             outlook = Dispatch('outlook.application')
             mail = outlook.CreateItem(0)
