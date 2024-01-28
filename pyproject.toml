@@ -34,6 +34,9 @@ doc = [
 ]
 sphynx = [
     "sphinx",
+    'sphinx-autodoc-typehints',
+    'sphinx-rtd-theme',
+    'sphinx-readme',
 ]
 [build-system]
 requires = ["hatchling"]
