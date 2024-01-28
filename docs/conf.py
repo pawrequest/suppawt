@@ -42,7 +42,7 @@ html_context = {
     'github_repo': 'pawsupport',
 }
 
-html_baseurl = "https://sphinx-readme.readthedocs.io/en/latest"
+html_baseurl = "https://pawsupport.readthedocs.io/en/latest"
 
 readme_src_files = "index.rst"
 
