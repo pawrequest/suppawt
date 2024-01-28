@@ -60,7 +60,6 @@
 Welcome to PawSupport's documentation!
 ***************************************
 
-Version: |release|
 
 **Contents:**
 
