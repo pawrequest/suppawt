@@ -1,4 +1,4 @@
-sphinx_autodoc_typehints
+sphinx-autodoc-typehints
 sphinx
 sphinx_rtd_theme
 readthedocs-sphinx-search
