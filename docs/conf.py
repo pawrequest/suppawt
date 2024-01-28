@@ -11,15 +11,10 @@ from importlib.metadata import version as metadata_version  # dont clash with ve
 project = 'PawSupport'
 # copyright = '2024, PawRequest'
 author = 'PawRequest'
-# release = '0.0.1'
+release = '0.0.1'
 
-year = datetime.now().year
-if year > 2024:
-    copyright = f'2024-{year}, {author}'
-else:
-    copyright = f'2024, {author}'
+copyright = f'2024, {author}'
 
-release = metadata_version(project)
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
