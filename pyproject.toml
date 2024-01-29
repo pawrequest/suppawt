@@ -34,6 +34,7 @@ office = [
 ]
 docs = [
     "sphinx",
+    'sphinx.ext.autodoc',
     "sphinx-autodoc-typehints",
     "sphinx-rtd-theme",
     "sphinx-readme",
