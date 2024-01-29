@@ -36,6 +36,6 @@ python:
         - fastui
         - bs4
         - sqlmodel
-        - office
+#        - office
         - docs
         - dev
