@@ -24,7 +24,7 @@ bs4 = [
 sqlmodel = [
     "sqlmodel",
 ]
-doc = [
+office = [
     "docxtpl",
     "pywin32",
     "openpyxl",
@@ -32,6 +32,13 @@ doc = [
     "pysimplegui",
     "comtypes",
 ]
+docs = [
+    "sphinx",
+    "sphinx-autodoc-typehints",
+    "sphinx-rtd-theme",
+    "sphinx-readme",
+]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
