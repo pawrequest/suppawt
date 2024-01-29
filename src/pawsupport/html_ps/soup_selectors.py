@@ -1,22 +1,24 @@
 from __future__ import annotations
+
 """
 Abstract base classes for selecting text and links from BeautifulSoup Tag objects.
 Create a subclass for each site to be scraped with methods for selecting text and links.
 """
-from abc import ABC
+from abc import ABC  # noqa: E402 surely a better way to avoid pycharm warning
 
-from aiohttp import ClientSession
-from bs4 import BeautifulSoup, Tag
-from loguru import logger
+from aiohttp import ClientSession  # noqa: E402
+from bs4 import BeautifulSoup, Tag  # noqa: E402
+from loguru import logger  # noqa: E402
 
-from ..async_ps import response_
+from ..async_ps import response_  # noqa: E402
 
 
 class TagSelectorABC(ABC):
     """ Abstract base class for selecting text and links from BeautifulSoup Tag objects."""
 
-    def __init__(self, tag: Tag):
+    def __init__(self, tag: Tag, name=None):
         self.tag = tag
+        self.name = name or self.__class__.__name__
 
     @classmethod
     async def from_url(cls, url: str, http_session: ClientSession) -> TagSelectorABC:
