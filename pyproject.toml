@@ -38,7 +38,7 @@ docs = [
     "sphinx-rtd-theme",
     "sphinx-readme",
 ]
-all = ["pawsupport[fastui, bs4, sqlmodel, docs]"]
+all = ["pawsupport[fastui, bs4, sqlmodel, docs, dev]"]
 #all = ["pawsupport[fastui, bs4, sqlmodel, office, docs]"]
 
 [build-system]
