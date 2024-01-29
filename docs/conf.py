@@ -1,28 +1,19 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
-
-# -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-from datetime import datetime
-from importlib.metadata import version as metadata_version  # dont clash with version in sphinx
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 project = 'PawSupport'
-# copyright = '2024, PawRequest'
 author = 'PawRequest'
 release = '0.0.1'
 
 copyright = f'2024, {author}'
 
 
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx_autodoc_typehints',
-    # 'sphinx_readme',
+    'sphinx_readme',
     # 'sphinx.ext.napoleon',
     # 'sphinx.ext.todo',
 ]
@@ -46,4 +37,4 @@ html_baseurl = "https://pawsupport.readthedocs.io/en/latest"
 
 readme_src_files = "index.rst"
 
-readme_docs_url_type = "html"
+readme_docs_url_type = "code"
