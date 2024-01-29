@@ -37,6 +37,7 @@ docs = [
     "sphinx-autodoc-typehints",
     "sphinx-rtd-theme",
     "sphinx-readme",
+    "sqlmodel",
 ]
 
 [build-system]
