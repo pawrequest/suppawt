@@ -37,11 +37,6 @@ docs = [
     "sphinx-autodoc-typehints",
     "sphinx-rtd-theme",
     "sphinx-readme",
-    "sqlmodel",
-    "beautifulsoup4",
-    "docxtpl",
-    "pywin32",
-
 ]
 [build-system]
 requires = ["hatchling"]
