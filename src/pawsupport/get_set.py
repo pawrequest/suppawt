@@ -2,7 +2,7 @@ import hashlib
 import re
 from typing import Literal
 
-from pawsupport.convert import to_snake
+from .convert import to_snake
 from .types_ps.typ import HasTitleOrName
 
 """"
