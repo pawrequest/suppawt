@@ -7,13 +7,13 @@ Welcome to PawSupport's documentation!
     :maxdepth: 2
     :caption: Contents:
 
-    pages/backup
-    pages/misc
-    pages/fastui
-    pages/html
-    pages/logging
-    pages/office
-    pages/sqlmodel
+    rst_pages/backup
+    rst_pages/misc
+    rst_pages/fastui
+    rst_pages/html
+    rst_pages/logging
+    rst_pages/office
+    rst_pages/sqlmodel
 
 
 
