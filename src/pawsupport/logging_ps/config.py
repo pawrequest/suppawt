@@ -1,11 +1,11 @@
-import inspect
-import logging
-
-from pawsupport.logging_ps.consts import CONSOLE_FORMAT_STR, FILE_FORMAT_STR
-
 """
 logging configuration for builtin logger
 """
+import inspect
+import logging
+
+from .consts import CONSOLE_FORMAT_STR, FILE_FORMAT_STR
+
 
 
 def configure_logging(logger_name=None, log_file=None, level=logging.DEBUG):

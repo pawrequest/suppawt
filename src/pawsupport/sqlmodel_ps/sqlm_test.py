@@ -1,3 +1,6 @@
+"""
+pytest fixtures for sqlmodel
+"""
 import pytest
 from sqlmodel import SQLModel, Session, StaticPool, create_engine
 

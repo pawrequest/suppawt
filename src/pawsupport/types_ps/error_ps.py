@@ -1,8 +1,8 @@
-from loguru import logger
-
 """
 exception types
 """
+from loguru import logger
+
 
 
 def try_except_log_as(func):

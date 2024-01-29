@@ -1,10 +1,10 @@
 import itertools
 
 from .doc_handler import DocHandler
-from pawsupport.office_ps.foss.gmail_handler import GmailHandler
-from pawsupport.office_ps.foss.libre_handler import LibreHandler
-from pawsupport.office_ps.ms.outlook_handler import OutlookHandler
-from pawsupport.office_ps.ms.word_handler import WordHandler
+from .foss.gmail_handler import GmailHandler
+from .foss.libre_handler import LibreHandler
+from .ms.outlook_handler import OutlookHandler
+from .ms.word_handler import WordHandler
 from .system_tools import (check_excel, check_lib2, check_libre, check_outlook, check_word)
 from .email_handler import EmailHandler
 

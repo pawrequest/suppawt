@@ -1,3 +1,6 @@
+"""
+functions for working with sqlmodel
+"""
 from functools import lru_cache
 from typing import Sequence
 
@@ -9,9 +12,6 @@ from ..get_set import get_hash, snake_name, snake_name_s, title_or_name_val, tit
 from ..types_ps import HasTitleOrName
 from ..types_ps.typ import HasGetHash
 
-"""
-functions for working with sqlmodel
-"""
 
 
 def assign_rel(instance: SQLModel, model: type[SQLModel], matches: list[SQLModel]) -> None:

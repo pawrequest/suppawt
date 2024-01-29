@@ -1,3 +1,6 @@
+"""
+general purpose functions for pawsupport.
+"""
 import os
 from typing import Literal, Sized
 

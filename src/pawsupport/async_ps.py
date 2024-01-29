@@ -1,11 +1,11 @@
+"""
+functions to support async operations
+"""
 import asyncio
 
 from aiohttp import ClientError, ClientSession
 from loguru import logger
 
-"""
-functions to support async operations
-"""
 
 
 def quiet_cancel_as(func: callable) -> callable:

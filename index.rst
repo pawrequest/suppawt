@@ -38,6 +38,9 @@ Welcome to PawSupport's documentation!
   * `Misc stuff <https://pawsupport.readthedocs.io/en/latest/rst_pages/misc.html#module-pawsupport.misc_ps>`_
 
 
+  * `Get and Set <https://pawsupport.readthedocs.io/en/latest/rst_pages/misc.html#module-pawsupport.get_set>`_
+
+
 
 * `Backup Utils: <https://pawsupport.readthedocs.io/en/latest/rst_pages/backup.html>`_
 

@@ -1,3 +1,6 @@
+"""
+functions for getting and setting attributes on objects.
+"""
 import hashlib
 import re
 from typing import Literal
@@ -5,9 +8,6 @@ from typing import Literal
 from .convert import to_snake
 from .types_ps.typ import HasTitleOrName
 
-""""
-functions for getting and setting attributes on objects.
-"""
 
 
 def title_or_name_val(obj: HasTitleOrName) -> str:

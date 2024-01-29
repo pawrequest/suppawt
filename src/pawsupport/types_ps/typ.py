@@ -1,8 +1,8 @@
+"""
+Utility types.
+"""
 from typing import Protocol, Sequence, runtime_checkable
 
-"""
-Utiluty types.
-"""
 
 
 class Writer(Protocol):

@@ -1,12 +1,12 @@
+"""
+functions for merging docx templates
+"""
 from pathlib import Path
 from typing import Tuple
 
 import PySimpleGUI as sg
 from docxtpl import DocxTemplate
 
-"""
-functions for merging docx templates
-"""
 
 
 def get_template_and_path(tmplt, temp_file, context=None) -> Tuple[DocxTemplate, Path]:

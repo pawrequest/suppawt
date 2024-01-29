@@ -1,17 +1,15 @@
 from __future__ import annotations
-
+"""
+Abstract base classes for selecting text and links from BeautifulSoup Tag objects.
+Create a subclass for each site to be scraped with methods for selecting text and links.
+"""
 from abc import ABC
 
 from aiohttp import ClientSession
 from bs4 import BeautifulSoup, Tag
 from loguru import logger
 
-from pawsupport.async_ps import response_
-
-"""
-Abstract base classes for selecting text and links from BeautifulSoup Tag objects.
-Create a subclass for each site to be scraped with methods for selecting text and links.
-"""
+from ..async_ps import response_
 
 
 class TagSelectorABC(ABC):

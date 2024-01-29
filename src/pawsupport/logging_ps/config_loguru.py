@@ -1,15 +1,13 @@
 from __future__ import annotations
-
+"""
+functions for configuring loguru
+"""
 import functools
 import logging
 import sys
 from typing import Literal
 
 from loguru import logger
-
-"""
-functions for configuring loguru
-"""
 
 
 def get_loguru(log_file, profile: Literal["local", "remote", "default"] = None) -> logger:
@@ -104,6 +102,7 @@ def logger_wraps(*, entry=True, exit=True, level="DEBUG") -> callable:
     :param level: log level
     :return: decorator
     """
+
     def wrapper(func):
         name = func.__name__
 

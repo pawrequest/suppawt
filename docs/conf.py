@@ -21,3 +21,4 @@ html_context = {
 html_baseurl = "https://pawsupport.readthedocs.io/en/latest"
 readme_src_files = "index.rst"
 readme_docs_url_type = "html"
+add_module_names = False

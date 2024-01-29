@@ -1,8 +1,8 @@
-import re
-
 """
 functions to convert between different formats
 """
+import re
+
 
 
 def obj_to_dict(obj: object) -> dict[str, object]:
