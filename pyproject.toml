@@ -47,10 +47,6 @@ managed = true
 dev-dependencies = [
     'pytest',
     'pytest-asyncio',
-    'sphinx',
-    'sphinx-autodoc-typehints',
-    'sphinx-rtd-theme',
-    'sphinx-readme',
 ]
 
 [tool.hatch.metadata]
