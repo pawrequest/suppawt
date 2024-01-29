@@ -1,10 +1,18 @@
+**************
 Misc
-======
+**************
+
+
+###############
+Misc stuff
+###############
 
 .. automodule:: pawsupport.misc_ps
     :members:
     :private-members:
     :member-order: bysource
+
+----------------------------------------------------
 
 .. automodule:: pawsupport.get_set
     :members:
