@@ -13,3 +13,7 @@ class PageSoup(BeautifulSoup):
         html = await response_(url, http_session)
         return cls(html, "html.parser")
 
+    @classmethod
+    def from_bs4(cls, bs4: BeautifulSoup) -> PageSoup:
+        return cls(bs4.prettify(), "html.parser")
+
