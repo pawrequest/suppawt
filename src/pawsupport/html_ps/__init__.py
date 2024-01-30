@@ -1,4 +1,5 @@
-from .soup_selectors import TagSelectorABC, PageSelectorABC, AnySelectorABC
+from .soup_selectors import AnySelectorABC, PageSelectorABC, TagSelectorABC
+from .page_soup import PageSoup
 
 html_entities = {
     "&": "&amp;",
