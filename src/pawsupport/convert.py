@@ -35,3 +35,8 @@ def to_snake(s):
     :return: snake_case string
     """
     return re.sub(r"(?<!^)(?=[A-Z])", "_", s).lower()
+
+
+def snake_to_pascal(snake_str: str) -> str:
+    words = snake_str.split('_')
+    return ''.join(word.capitalize() for word in words)
