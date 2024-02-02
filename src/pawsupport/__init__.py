@@ -5,4 +5,5 @@ from . import async_ps
 from . import misc_ps
 from . import types_ps
 from . import html_ps
+from . import convert
 
