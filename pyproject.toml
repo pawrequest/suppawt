@@ -31,6 +31,7 @@ office = [
     "docx2pdf",
     "pysimplegui",
     "comtypes",
+    "PyPDF2",
 ]
 docs = [
     "sphinx",
@@ -38,8 +39,16 @@ docs = [
     "sphinx-rtd-theme",
     "sphinx-readme",
 ]
-all = ["pawsupport[fast, bs4, sql, docs, dev]"]
-#all = ["pawsupport[fastui, bs4, sqlmodel, office, docs]"]
+#all = [
+#    "fast",
+#    "bs4",
+#    "sql",
+#    "office",
+#    "docs",
+#    "dev",
+#]
+
+all = ["pawsupport[fast, bs4, sql, office, docs, dev]"]
 
 [build-system]
 requires = ["hatchling"]
