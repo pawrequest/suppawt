@@ -1,19 +1,19 @@
 from __future__ import annotations
 
 from aiohttp import ClientSession
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from ..async_ps import response_
 
 
-class TagSoup(BeautifulSoup):
+class TagSoup(Tag):
     """Inject from_bs4 classmethod and select_text / select_link util funcs into BeautifulSoup"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     @classmethod
-    def from_bs4(cls, bs4: BeautifulSoup) -> TagSoup:
+    def from_bs4(cls, bs4: Tag) -> TagSoup:
         return cls(bs4.prettify(), "html.parser")
 
     def select_text(self, *args, **kwargs) -> str:
