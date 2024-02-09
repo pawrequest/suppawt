@@ -3,7 +3,7 @@ name = "pawsupport"
 version = "0.1.1"
 description = "utils"
 authors = [
-    { name = "paw", email = "paw@pawrequest.com" }
+    { name = "paw", email = "pawrequest@users.noreply.github.com" }
 ]
 
 dependencies = [
@@ -14,14 +14,14 @@ readme = "README.md"
 requires-python = ">= 3.12"
 
 [project.optional-dependencies]
-fastui = [
+fast = [
     "fastui",
     "fastapi",
 ]
 bs4 = [
     "beautifulsoup4",
 ]
-sqlmodel = [
+sql = [
     "sqlmodel",
 ]
 office = [
@@ -38,7 +38,7 @@ docs = [
     "sphinx-rtd-theme",
     "sphinx-readme",
 ]
-all = ["pawsupport[fastui, bs4, sqlmodel, docs, dev]"]
+all = ["pawsupport[fast, bs4, sql, docs, dev]"]
 #all = ["pawsupport[fastui, bs4, sqlmodel, office, docs]"]
 
 [build-system]
