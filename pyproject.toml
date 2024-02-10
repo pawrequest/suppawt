@@ -32,6 +32,7 @@ office = [
     "pysimplegui",
     "comtypes",
     "PyPDF2",
+    "pypdf",
 ]
 docs = [
     "sphinx",
