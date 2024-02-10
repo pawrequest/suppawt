@@ -1,5 +1,4 @@
-from PyPDF2 import PdfReader, PdfWriter, Transformation
-from PyPDF2.papersizes import PaperSize
+from pypdf import PaperSize, PdfReader, PdfWriter
 
 
 def on_a4(input_pdf_path, output_pdf_path):
@@ -7,18 +6,24 @@ def on_a4(input_pdf_path, output_pdf_path):
     writer = PdfWriter()
 
     for i in range(0, len(reader.pages), 2):
-        # Create a new A4 page
-        new_page = writer.add_blank_page(width=PaperSize.A4[1], height=PaperSize.A4[0])
+        destpage = writer.add_blank_page(width=PaperSize.A4.height, height=PaperSize.A4.width)
+        left = reader.pages[i]
+        translation_y = (PaperSize.A4.width - left.mediabox.height) / 2
+        translation_x = (PaperSize.A4.height / 2 - left.mediabox.width) / 2
+        destpage.merge_translated_page(left, translation_x, translation_y)
 
-        if i < len(reader.pages):
-            left = reader.pages[i]
-            left.rotate(90)
-            left.scale(4, 4)
-            left.artbox.scale(.5, .5)
-            new_page.merge_page(left)
+        if i + 1 < len(reader.pages):
+            right = reader.pages[i + 1]
+            translation_y = (PaperSize.A4.width - right.mediabox.height) / 2
+            translation_x = (PaperSize.A4.height / 2 - right.mediabox.width) / 2
+            destpage.merge_translated_page(right, translation_x, translation_y)
 
-        # if i + 1 < len(reader.pages):
-        #     right = reader.pages[i + 1]
+            # transform = Transformation().translate(
+            #     PaperSize.A4.height / 2 + translation_x,
+            #     translation_y
+            #     )
+            # destpage.merge_transformed_page(right, transform)
+
         #     transform = Transformation().translate(PaperSize.A4[1] / 2, 0)
         #     right.add_transformation(transform)
         #     new_page.merge_page(right)
