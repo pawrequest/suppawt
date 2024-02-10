@@ -193,7 +193,7 @@ def back_link() -> c.Link:
     return c.Link(components=[c.Text(text="Back")], on_click=BackEvent())
 
 
-def nav_bar_(models: Sequence[RoutableModel]) -> c.Navbar:
+def nav_bar_from_routable(models: Sequence[RoutableModel]) -> c.Navbar:
     """
     Create a navbar
 
