@@ -28,35 +28,62 @@ class FastUiMaker:
     ...
 
 
-def Row(components: List[AnyComponent], class_name: str = ROW) -> c.Div:
+def cols_from_list(components: List[AnyComponent], class_name: str = '') -> List[c.Div]:
+    return [Col(components=[comp], col_class=class_name) for comp in components]
+
+
+def rows_from_list(components: List[AnyComponent], class_name: str = '') -> List[c.Div]:
+    return [Row(components=[comp], row_class_name=class_name) for comp in components]
+
+
+def Row(
+        components: List[AnyComponent],
+        row_class_name: str = ROW,
+        sub_cols=False,
+        col_class_name=''
+) -> c.Div:
     """
     Create a row of fastui components
 
     :param components: a list of fastui components
-    :param class_name: css class names as a string
+    :param row_class_name: css class names as a string
+    :param sub_cols: if True, create sub columns
+    :param col_class_name: css class names for sub columns as a string
     :returns: Div with class_name='row'+class_name"""
     try:
         # return c.Div(components=components, class_name="row")
         if not components:
             return c.Div(components=[c.Text(text="---")])
-        class_name = f"row {class_name}"
-        return c.Div(components=components, class_name=class_name)
+        row_class_name = f"row {row_class_name}"
+        if sub_cols:
+            components = cols_from_list(components, class_name=col_class_name)
+        return c.Div(components=components, class_name=row_class_name)
     except Exception as e:
         logger.error(e)
 
 
-def Col(components: List[AnyComponent], class_name: str = COL_4) -> c.Div:
+def Col(
+        components: List[AnyComponent],
+        col_class: str = '',
+        sub_rows: bool = False,
+        row_class: str = ''
+) -> c.Div:
     """
     Create a column of fastui components
 
-    :param components: a list of fastui components
-    :param class_name: css class names as a string
-    :returns: Div with class_name='col'+class_name
+    args:
+        components: a list of fastui components
+        col_class: css class names as a string
+        sub_rows: if True, create sub rows
+        row_class: css class names for sub rows as a string
+    returns: Div with class_name='col'+class_name
     """
 
     try:
-        class_name = f"col {class_name}"
-        return c.Div(components=components, class_name=class_name)
+        col_class = f"col {col_class}"
+        if sub_rows:
+            components = rows_from_list(components, class_name=row_class)
+        return c.Div(components=components, class_name=col_class)
     except Exception as e:
         logger.error(e)
 
@@ -118,8 +145,10 @@ def Flex(components: list[AnyComponent], class_name="") -> c.Div:
         logger.error(ee)
 
 
-def default_page(components: list[AnyComponent], title: str, navbar, header_class=None,
-                 page_classname=None) -> list[AnyComponent]:
+def default_page(
+        components: list[AnyComponent], title: str, navbar, header_class=None,
+        page_classname=None
+) -> list[AnyComponent]:
     """
     Create a default page
 
