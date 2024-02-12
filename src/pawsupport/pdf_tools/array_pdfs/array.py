@@ -5,13 +5,53 @@ from pathlib import Path
 from pypdf import PaperSize, PdfReader, PdfWriter, Transformation
 from pypdf.papersizes import Dimensions
 
-MARGIN = 0.12
+ADDED_MARGIN = 0.12
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Scale and arrange PDF pages on A4 sheets.')
+    parser.add_argument('input', help='Path to the input PDF file or dir with PDF files')
+    parser.add_argument(
+        '-o',
+        '--out_dir',
+        help='Path to the output dir, optional - defaults to cwd/output'
+    )
+
+    parser.add_argument(
+        '--print',
+        action='store_true',
+        help='Print the output PDF after processing'
+    )
+
+    args = parser.parse_args()
+    print(args)
+    inpath = Path(args.input)
+    if inpath.is_file():
+        input_files = [Path(args.input)]
+    elif inpath.is_dir():
+        input_files = list(inpath.glob('*.pdf'))
+    else:
+            raise ValueError('Invalid input path - must be a PDF file or a directory.')
+
+    output_dir = args.out_dir or Path.cwd() / 'pdf_array'
+    convert_many(input_files, output_dir, print_files=args.print)
+
+
+def convert_many(input_files: list[Path], output_dir: Path, *, print_files=False):
+    output_dir.mkdir(exist_ok=True)
+    for file in input_files:
+        output_file = output_dir / f'{file.stem}_on_a4.pdf'
+        print(f'Processing {file.name}...')
+        on_a4(file, output_file)
+        print(f'Output file: {output_file}')
+        if print_files:
+            os.startfile(output_file, 'print')
 
 
 def get_scale_factor(input_size: Dimensions, output_size: Dimensions) -> float:
     return min(
         [(output_size.width / input_size.height), (output_size.height / input_size.width)]
-    ) / (1 + MARGIN)
+    ) / (1 + ADDED_MARGIN)
 
 
 def on_a4(
@@ -21,7 +61,7 @@ def on_a4(
 ):
     if not input_file.is_file():
         raise ValueError('Invalid input file path.')
-    if not output_file.is_file() or output_file.suffix != '.pdf':
+    if output_file.suffix != '.pdf':
         raise ValueError('Invalid output file path.')
     reader = PdfReader(input_file)
 
@@ -64,45 +104,6 @@ def get_translation_dims(in_size: Dimensions, out_size: Dimensions) -> tuple[flo
     translate_y = (out_size.width - in_size.height) / 2
 
     return translate_x_left, translate_x_right, translate_y
-
-
-def main():
-    parser = argparse.ArgumentParser(description='Scale and arrange PDF pages on A4 sheets.')
-    parser.add_argument('input', help='Path to the input PDF file or dir with PDF files')
-    parser.add_argument(
-        '-o',
-        '--out_dir',
-        help='Path to the output dir, optional - defaults to cwd/output'
-    )
-    parser.add_argument(
-        '--print',
-        action='store_true',
-        help='Print the output PDF after processing'
-    )
-
-    args = parser.parse_args()
-    print(args)
-    inpath = Path(args.input)
-    if inpath.is_file():
-        input_files = [Path(args.input)]
-    elif inpath.is_dir():
-        input_files = list(inpath.glob('*.pdf'))
-    else:
-        raise ValueError('Invalid input path - must be a PDF file or a directory.')
-
-    output_dir = args.out_dir or Path.cwd() / 'output'
-    convert_many(input_files, output_dir, print_files=args.print)
-
-
-def convert_many(input_files: list[Path], output_dir: Path, *, print_files=False):
-    output_dir.mkdir(exist_ok=True)
-    for file in input_files:
-        output_file = output_dir / f'{file.stem}_on_a4.pdf'
-        print(f'Processing {file.name}...')
-        on_a4(file, output_file)
-        print(f'Output file: {output_file}')
-        if print_files:
-            os.startfile(output_file, 'print')
 
 
 if __name__ == '__main__':
