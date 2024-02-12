@@ -1,36 +1,36 @@
-
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.papersizes import PaperSize
-
-a5_width, a5_height = PaperSize.A5
-a6_width, a6_height = PaperSize.A6
-x_margin = (a5_width - a6_width) / 2
-y_margin = (a5_height - a6_height) / 2
+from pypdf import PaperSize, PdfReader, PdfWriter
 
 
 def on_a4(input_pdf_path, output_pdf_path):
     reader = PdfReader(input_pdf_path)
     writer = PdfWriter()
 
-    for page in reader.pages:
-        # page.scale(0.5, 0.5)
-        # page.cropbox.scale(2, 2)
+    for i in range(0, len(reader.pages), 2):
+        destpage = writer.add_blank_page(width=PaperSize.A4.height, height=PaperSize.A4.width)
+        left = reader.pages[i]
+        translation_y = (PaperSize.A4.width - left.mediabox.height) / 2
+        translation_x = (PaperSize.A4.height / 2 - left.mediabox.width) / 2
+        destpage.merge_translated_page(left, translation_x, translation_y)
 
-        new_page = writer.add_blank_page(width=PaperSize.A4[1], height=PaperSize.A4[0])
-        # writer.add_page(new_page)
+        if i + 1 < len(reader.pages):
+            right = reader.pages[i + 1]
+            translation_y = (PaperSize.A4.width - right.mediabox.height) / 2
+            translation_x = (PaperSize.A4.height / 2 - right.mediabox.width) / 2
+            destpage.merge_translated_page(right, translation_x, translation_y)
 
-        new_page.merge_page(page)
+            # transform = Transformation().translate(
+            #     PaperSize.A4.height / 2 + translation_x,
+            #     translation_y
+            #     )
+            # destpage.merge_transformed_page(right, transform)
 
-        # translation = [x_margin, 0]
+        #     transform = Transformation().translate(PaperSize.A4[1] / 2, 0)
+        #     right.add_transformation(transform)
+        #     new_page.merge_page(right)
 
-        # page.rotate(90)
-        # page.add_transformation(Transformation().translate(*translation))
-        # writer.add_page(page)
-
+    # Write the output PDF
     with open(output_pdf_path, 'wb') as out_pdf_file:
         writer.write(out_pdf_file)
-
-    # os.startfile(str(out_pdf_file), 'print')
 
 
 def main():
