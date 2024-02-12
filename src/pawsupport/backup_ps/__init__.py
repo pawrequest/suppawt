@@ -3,7 +3,10 @@ from __future__ import annotations
 import asyncio
 
 from .pruner import Pruner
-from .sqlmodel_backup import SQLModelBackup
+try:
+    from .sqlmodel_backup import SQLModelBackup
+except ImportError:
+    pass
 
 
 async def schedule_backup_prune(backupbot: SQLModelBackup, pruner_bot: Pruner, sleep: int):

@@ -31,7 +31,6 @@ office = [
     "docx2pdf",
     "pysimplegui",
     "comtypes",
-    "PyPDF2",
     "pypdf",
 ]
 docs = [
