@@ -39,6 +39,9 @@ docs = [
     "sphinx-rtd-theme",
     "sphinx-readme",
 ]
+system = [
+    'context-menu',
+]
 #all = [
 #    "fast",
 #    "bs4",
@@ -48,7 +51,7 @@ docs = [
 #    "dev",
 #]
 
-all = ["pawsupport[fast, bs4, sql, office, docs, dev]"]
+all = ["pawsupport[fast, bs4, sql, office, docs, dev, system]"]
 
 [build-system]
 requires = ["hatchling"]

@@ -8,7 +8,6 @@ import PySimpleGUI as sg
 from docxtpl import DocxTemplate
 
 
-
 def get_template_and_path(tmplt, temp_file, context=None) -> Tuple[DocxTemplate, Path]:
     """
     Get a docx template and save it to a temporary file
