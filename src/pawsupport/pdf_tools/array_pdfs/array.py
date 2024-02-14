@@ -48,6 +48,9 @@ def convert_many(input_files: list[Path], output_dir: Path, *, print_files=False
             os.startfile(output_file, 'print')
 
 
+def convert_one(input_file: Path, output_dir: Path, *, print_file=False):
+    ...
+
 def get_scale_factor(input_size: Dimensions, output_size: Dimensions) -> float:
     return min(
         [(output_size.width / input_size.height), (output_size.height / input_size.width)]
