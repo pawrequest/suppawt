@@ -4,7 +4,6 @@ exception types
 from loguru import logger
 
 
-
 def try_except_log_as(func):
     """
     Decorator to catch exceptions on async funcs and log them
@@ -20,6 +19,7 @@ def try_except_log_as(func):
         except Exception as e:
             calling_func = func.__name__
             logger.error(
-                f'{calling_func} raised {str(e)} with args {str(*args)} and kwargs {str(**kwargs)}')
+                f'{calling_func} raised {str(e)} with args {str(*args)} and kwargs {str(**kwargs)}'
+            )
 
     return wrapper

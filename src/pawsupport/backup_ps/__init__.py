@@ -3,10 +3,11 @@ from __future__ import annotations
 import asyncio
 
 from .pruner import Pruner
+from loguru import logger
 try:
     from .sqlmodel_backup import SQLModelBackup
 except ImportError:
-    pass
+    logger.warning("SQLModelBackup not found. Please install the 'sqlmodel' package.")
 
 
 async def schedule_backup_prune(backupbot: SQLModelBackup, pruner_bot: Pruner, sleep: int):

@@ -1,6 +1,6 @@
 [project]
 name = "pawsupport"
-version = "0.1.1"
+version = "0.1.2"
 description = "utils"
 authors = [
     { name = "paw", email = "pawrequest@users.noreply.github.com" }
@@ -8,6 +8,7 @@ authors = [
 
 dependencies = [
     'loguru',
+    'context-menu',
 ]
 readme = "README.md"
 requires-python = ">= 3.12"
@@ -39,16 +40,10 @@ docs = [
     "sphinx-rtd-theme",
     "sphinx-readme",
 ]
-#all = [
-#    "fast",
-#    "bs4",
-#    "sql",
-#    "office",
-#    "docs",
-#    "dev",
-#]
 
-all = ["pawsupport[fast, html, sql, office, docs, dev]"]
+#all = ["pawsupport[fast, html, sql, office, docs, dev]"]
+all = ["pawsupport[fast, html, sql, office, docs]"]
+
 
 [build-system]
 requires = ["hatchling"]
