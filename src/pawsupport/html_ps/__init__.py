@@ -1,13 +1,18 @@
-from .soup_selectors import AnySelectorABC, PageSelectorABC, TagSelectorABC
-from .page_soup import PageSoup, TagSoup
+from loguru import logger
+
+try:
+    from .soup_selectors import AnySelectorABC, PageSelectorABC, TagSelectorABC
+    from .page_soup import PageSoup, TagSoup
+except ImportError:
+    logger.warning("BeautifulSoup not installed")
 
 html_entities = {
-    "&": "&amp;",
-    "\"": "&quot;",
-    "'": "&apos;",
-    "<": "&lt;",
-    ">": "&gt;",
-    " ": "&#32;"
+    r"&": r"&amp;",
+    r'"': r"&quot;",
+    r"'": r"&apos;",
+    r"<": r"&lt;",
+    r">": r"&gt;",
+    r" ": r"&#32;"
 }
 
 
