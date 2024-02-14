@@ -8,7 +8,6 @@ authors = [
 
 dependencies = [
     'loguru',
-    'aiohttp',
 ]
 readme = "README.md"
 requires-python = ">= 3.12"
@@ -18,7 +17,8 @@ fast = [
     "fastui",
     "fastapi",
 ]
-bs4 = [
+html = [
+    "aiohttp",
     "beautifulsoup4",
 ]
 sql = [
@@ -39,9 +39,6 @@ docs = [
     "sphinx-rtd-theme",
     "sphinx-readme",
 ]
-system = [
-    'context-menu',
-]
 #all = [
 #    "fast",
 #    "bs4",
@@ -51,7 +48,7 @@ system = [
 #    "dev",
 #]
 
-all = ["pawsupport[fast, bs4, sql, office, docs, dev, system]"]
+all = ["pawsupport[fast, html, sql, office, docs, dev]"]
 
 [build-system]
 requires = ["hatchling"]
