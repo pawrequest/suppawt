@@ -2,7 +2,7 @@ from pathlib import Path
 
 from context_menu import menus
 
-from pawsupport.src.pawsupport.pdf_tools.array_pdfs.array import convert_many
+from pawsupport.pdf_tools.array_pdfs.array import convert_many
 
 
 def foo1(filenames, params):
