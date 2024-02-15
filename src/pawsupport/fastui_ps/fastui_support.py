@@ -5,8 +5,8 @@ from __future__ import annotations
 
 from typing import List, Protocol, Sequence
 
-from fastui.events import BackEvent, GoToEvent
 from loguru import logger
+from fastui.events import BackEvent, GoToEvent
 from fastui import AnyComponent, components as c
 
 """
