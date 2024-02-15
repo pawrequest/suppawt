@@ -1,7 +1,3 @@
-from loguru import logger
+from . import fastui_support
 
-try:
-    from . import fastui_support
-except ImportError as e:
-    logger.warning("fastui_support not installed")
-    raise e
+__all__ = ['fastui_support']

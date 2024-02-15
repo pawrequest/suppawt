@@ -7,12 +7,7 @@ from typing import List, Protocol, Sequence
 
 from fastui.events import BackEvent, GoToEvent
 from loguru import logger
-
-try:
-    from fastui import AnyComponent, components as c
-except ImportError as e:
-    logger.error("fastui not installed")
-    raise e
+from fastui import AnyComponent, components as c
 
 """
 FastUI support
