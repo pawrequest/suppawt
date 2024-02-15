@@ -1,6 +1,9 @@
 """
 general purpose functions for pawsupport.
 """
+from __future__ import annotations
+
+import importlib.util
 import os
 from typing import Literal, Sized
 
@@ -69,3 +72,8 @@ def matches_str(matches: Sized, model: type):
     """
     matches = len(matches)
     return f"{matches} '{model.__name__}' {'match' if matches == 1 else 'matches'}"
+
+
+def can_import(module_name):
+    spec = importlib.util.find_spec(module_name)
+    return spec is not None

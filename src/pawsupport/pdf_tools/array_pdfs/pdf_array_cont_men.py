@@ -1,3 +1,4 @@
+import argparse
 import os
 import sys
 from pathlib import Path
@@ -5,7 +6,7 @@ from pathlib import Path
 from context_menu import menus
 from loguru import logger
 
-from ..pdf_tools.array_pdfs.array import convert_many
+from pawsupport.src.pawsupport.pdf_tools.array_pdfs.array import convert_many
 
 MENU_NAME = 'Array and Print PDF'
 
@@ -43,7 +44,18 @@ def add_menu():
     fc.compile()
 
 
-if __name__ == '__main__':
-    # remove_menu()
-    add_menu()
+def main():
+    parser = argparse.ArgumentParser(description='Install or remove the context menu for PDF files.')
+    parser.add_argument('in_or_rm', help='Install or remove the context menu')
 
+    args = parser.parse_args()
+    if args.in_or_rm == 'install':
+        add_menu()
+    elif args.in_or_rm == 'remove':
+        remove_menu()
+    else:
+        raise ValueError('Invalid argument - must be "install" or "remove"')
+
+
+if __name__ == '__main__':
+    main()

@@ -1,10 +1,5 @@
-from loguru import logger
-
-try:
-    from .soup_selectors import AnySelectorABC, PageSelectorABC, TagSelectorABC
-    from .page_soup import PageSoup, TagSoup
-except ImportError:
-    logger.warning("BeautifulSoup not installed")
+from .soup_selectors import AnySelectorABC, PageSelectorABC, TagSelectorABC
+from .page_soup import PageSoup, TagSoup
 
 html_entities = {
     r"&": r"&amp;",
@@ -26,3 +21,7 @@ def sanitise(string):
     for char, entity in html_entities.items():
         string = string.replace(char, entity)
     return string
+
+
+__all__ = ['AnySelectorABC', 'PageSelectorABC', 'TagSelectorABC', 'PageSoup', 'TagSoup', 'sanitise',
+           'unsanitise']
