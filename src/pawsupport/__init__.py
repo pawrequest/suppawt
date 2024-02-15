@@ -14,6 +14,7 @@ if can_import('loguru'):
 
     if can_import('fastui'):
         from . import fastui_ps
+
     if can_import('context_menu'):
         from . import context_menu_ps
 
