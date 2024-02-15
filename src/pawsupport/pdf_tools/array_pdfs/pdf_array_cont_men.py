@@ -6,7 +6,7 @@ from pathlib import Path
 from context_menu import menus
 from loguru import logger
 
-from pawsupport.src.pawsupport.pdf_tools.array_pdfs.array import convert_many
+from .array import convert_many
 
 MENU_NAME = 'Array and Print PDF'
 
