@@ -1,6 +1,7 @@
 """
 FastUI support functions
 """
+
 from __future__ import annotations
 
 from typing import List, Protocol, Sequence
@@ -8,10 +9,6 @@ from typing import List, Protocol, Sequence
 from loguru import logger
 from fastui.events import BackEvent, GoToEvent
 from fastui import AnyComponent, components as c
-
-"""
-FastUI support
-"""
 
 STANDARD = "text-center py-1 my-1"
 COL_4 = f"col-4 {STANDARD}"
@@ -44,7 +41,9 @@ def Row(
     :param row_class_name: css class names as a string
     :param sub_cols: if True, create sub columns
     :param col_class_name: css class names for sub columns as a string
-    :returns: Div with class_name='row'+class_name"""
+
+    :returns: Div with class_name='row'+class_name
+    """
     try:
         # return c.Div(components=components, class_name="row")
         if not components:
@@ -71,6 +70,7 @@ def Col(
         col_class: css class names as a string
         sub_rows: if True, create sub rows
         row_class: css class names for sub rows as a string
+
     returns: Div with class_name='col'+class_name
     """
 
@@ -89,6 +89,7 @@ def empty_div(col=False, container=False) -> c.Div:
 
     :param col: if True, create an empty col
     :param container: if True, create an empty container
+
     :returns: Div with text '---'
     """
     if col:

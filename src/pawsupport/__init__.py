@@ -1,5 +1,12 @@
-from .misc_ps import can_import
+import importlib.util
+
 from . import convert, types_ps
+
+
+def can_import(module_name):
+    spec = importlib.util.find_spec(module_name)
+    return spec is not None
+
 
 if can_import('loguru'):
     from . import logging_ps
@@ -16,10 +23,7 @@ if can_import('loguru'):
         from . import fastui_ps
 
     if can_import('context_menu'):
-        from . import context_menu_ps
+        pass
 
 # internal optional = sqlmodel
 from . import backup_ps
-
-__all__ = ['logging_ps', 'error_ps', 'async_ps', 'misc_ps', 'types_ps', 'html_ps', 'convert',
-           'fastui_ps', 'backup_ps', 'context_menu_ps']

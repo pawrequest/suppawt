@@ -34,15 +34,9 @@ office = [
     "comtypes",
     "pypdf",
 ]
-docs = [
-    "sphinx",
-    "sphinx-autodoc-typehints",
-    "sphinx-rtd-theme",
-    "sphinx-readme",
-]
 
 #all = ["pawsupport[fast, html, sql, office, docs, dev]"]
-all = ["pawsupport[fast, html, sql, office, docs]"]
+all = ["pawsupport[fast, html, sql, office]"]
 
 
 [build-system]
@@ -54,6 +48,12 @@ managed = true
 dev-dependencies = [
     'pytest',
     'pytest-asyncio',
+    'sphinx_autodoc_typehints',
+    'sphinx_rtd_theme',
+    'sphinx',
+    'sphinx_readme',
+    "myst_parser",
+
 ]
 
 [tool.hatch.metadata]
