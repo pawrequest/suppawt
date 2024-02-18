@@ -3,7 +3,7 @@ import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from pawsupport.backup_paw.copy_prune import Pruner
+from pawsupport.backup_ps import Pruner
 
 
 def test_backup_pruning():
@@ -21,7 +21,7 @@ def test_backup_pruning():
                 Pruner(
                     output_dir=tmp_dir,
                     backup_target=test_file,
-                    backup_date=backup_date,
+                    _backup_date=backup_date,
                 ).copy_and_prune()
 
         # Check the number of backups in each directory

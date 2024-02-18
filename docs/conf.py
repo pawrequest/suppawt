@@ -6,6 +6,8 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx_autodoc_typehints',
     'sphinx_readme',
+    "myst_parser",
+
 ]
 
 templates_path = ['_templates']
@@ -21,6 +23,6 @@ html_context = {
     'github_repo': 'pawsupport',
 }
 html_baseurl = "https://pawsupport.readthedocs.io/en/latest"
-readme_src_files = "index.rst"
+readme_src_files = "index.md"
 readme_docs_url_type = "html"
 add_module_names = False
