@@ -59,8 +59,15 @@ def convert_print_silent(input_files: list[Path]):
         os.remove(output_file)
 
 
+def convert_print_silent2(*input_files: Path):
+    for infile in input_files:
+        output_file = convert_one(infile)
+        os.startfile(output_file, 'print')
+        os.remove(output_file)
+
+
 def convert_one(input_file: Path) -> Path:
-    tmp = Path.cwd() / 'tmp.pdf'
+    tmp = Path('tmp.pdf')
     print(f'Processing {input_file.name}...')
     on_a4(input_file, tmp)
     print(f'Output file: {tmp}')
