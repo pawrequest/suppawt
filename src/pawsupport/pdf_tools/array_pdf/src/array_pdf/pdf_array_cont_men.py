@@ -1,10 +1,11 @@
 import argparse
+import os
 import sys
 from pathlib import Path
 
 from context_menu import menus
 
-from array_p import convert_print_silent
+from .array_p import convert_many, convert_print_silent
 
 MENU_NAME_old = 'Array and Print PDF'
 MENU_NAME = 'Print 2 x A6 PDF on A4'
@@ -47,10 +48,6 @@ def do_menu_silent_no_save(input_files, extra):
 
 def remove_menu():
     menus.removeMenu(MENU_NAME, 'FILES')
-
-
-def remove_old_menu():
-    menus.removeMenu(MENU_NAME_old, 'FILES')
 
 
 def add_menu():
