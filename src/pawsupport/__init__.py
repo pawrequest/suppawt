@@ -1,7 +1,7 @@
 import importlib.util
 
 from . import convert, types_ps
-
+from pawsupport.pdf_tools.array_pdf import convert_print_silent2
 
 def can_import(module_name):
     spec = importlib.util.find_spec(module_name)
