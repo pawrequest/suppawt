@@ -1,7 +1,8 @@
 import importlib.util
 
-from . import convert, types_ps
-from pawsupport.pdf_tools.array_pdf import convert_print_silent2
+from . import backup_ps, convert, types_ps
+from .pdf_tools.array_pdf import convert_print_silent2
+
 
 def can_import(module_name):
     spec = importlib.util.find_spec(module_name)
@@ -25,5 +26,17 @@ if can_import('loguru'):
     if can_import('context_menu'):
         pass
 
-# internal optional = sqlmodel
-from . import backup_ps
+
+
+__all__ = [
+    'convert',
+    'types_ps',
+    'convert_print_silent2',
+    'logging_ps',
+    'error_ps',
+    'misc_ps',
+    'async_ps',
+    'html_ps',
+    'fastui_ps',
+    'backup_ps',
+]
