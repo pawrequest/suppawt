@@ -13,7 +13,6 @@ from ..types_ps import HasTitleOrName
 from ..types_ps.typ import HasGetHash
 
 
-
 def assign_rel(instance: SQLModel, model: type[SQLModel], matches: list[SQLModel]) -> None:
     """
     Assign a list of models to an instance
