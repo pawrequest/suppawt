@@ -26,6 +26,9 @@ if can_import('loguru'):
     if can_import('context_menu'):
         pass
 
+    if can_import('sqlmodel'):
+        from . import sqlmodel_ps
+
 
 
 __all__ = [
@@ -39,4 +42,5 @@ __all__ = [
     'html_ps',
     'fastui_ps',
     'backup_ps',
+    'sqlmodel_ps',
 ]
