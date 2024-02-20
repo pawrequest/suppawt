@@ -11,12 +11,13 @@ dependencies = [
     'context-menu',
 ]
 readme = "README.md"
-requires-python = ">= 3.12"
+requires-python = ">= 3.10"
 
 [project.optional-dependencies]
 fast = [
     "fastui",
     "fastapi",
+    'uvicorn',
 ]
 html = [
     "aiohttp",
@@ -34,9 +35,15 @@ office = [
     "comtypes",
     "pypdf",
 ]
+doc = [
+    "sphinx",
+    "sphinx-autodoc-typehints",
+    "sphinx-rtd-theme",
+    "sphinx-readme",
+    "myst-parser",
+]
 
-#all = ["pawsupport[fast, html, sql, office, docs, dev]"]
-all = ["pawsupport[fast, html, sql, office]"]
+all = ["pawsupport[fast, html, sql, office, doc]"]
 
 
 [build-system]
@@ -48,12 +55,6 @@ managed = true
 dev-dependencies = [
     'pytest',
     'pytest-asyncio',
-    'sphinx_autodoc_typehints',
-    'sphinx_rtd_theme',
-    'sphinx',
-    'sphinx_readme',
-    "myst_parser",
-
 ]
 
 [tool.hatch.metadata]
