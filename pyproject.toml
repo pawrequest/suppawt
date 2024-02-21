@@ -18,13 +18,11 @@ fast = [
     "fastui",
     "fastapi",
     'uvicorn',
+    "sqlmodel",
 ]
 html = [
     "aiohttp",
     "beautifulsoup4",
-]
-sql = [
-    "sqlmodel",
 ]
 office = [
     "docxtpl",
@@ -42,8 +40,6 @@ doc = [
     "sphinx-readme",
     "myst-parser",
 ]
-
-all = ["pawsupport[fast, html, sql, office, doc]"]
 
 
 [build-system]
