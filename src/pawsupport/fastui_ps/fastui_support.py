@@ -3,7 +3,7 @@ FastUI support functions
 """
 from __future__ import annotations
 
-from enum import Enum, StrEnum, auto
+from enum import Enum, auto
 from typing import List, Optional, Protocol
 
 from loguru import logger
@@ -66,7 +66,8 @@ class DivPR(c.Div):
             individually_wrapped = [wrap_in(components=[comp], class_name=class_name) for comp in
                                     components]
 
-            wrapped_components = [inner_wrap(components=individually_wrapped, class_name=class_name)]
+            wrapped_components = [
+                inner_wrap(components=individually_wrapped, class_name=class_name)]
 
         super().__init__(components=wrapped_components, class_name=class_name)
 
@@ -186,28 +187,27 @@ class PagePR(c.Page):
 
 
 class LinkPR(c.Link):
-    @classmethod
-    def custom(
-            cls,
-            title: str,
-            url: str,
-            on_click: Optional[AnyEvent] = None,
-            class_name=CSSEnum.LINK
-    ):
-        if not url and not on_click:
-            logger.error("Must provide url or on_click event")
-
-        on_click = on_click or GoToEvent(url=url)
-
-        return cls(components=[c.Text(text=title)], on_click=on_click, class_name=class_name)
+    # @classmethod
+    # def custom(
+    #         cls,
+    #         title: str,
+    #         url: str,
+    #         on_click: Optional[AnyEvent] = None,
+    #         class_name=CSSEnum.LINK
+    # ):
+    #     if not url and not on_click:
+    #         logger.error("Must provide url or on_click event")
+    #
+    #     on_click = on_click or GoToEvent(url=url)
+    #
+    #     return cls(components=[c.Text(text=title)], on_click=on_click, class_name=class_name)
 
     @classmethod
     def back(cls) -> c.Link:
-        return cls(
-            title="Back",
-            url="",
-            on_click=BackEvent(),
-        )
+        title = "Back"
+        on_click = BackEvent()
+        class_name = CSSEnum.LINK
+        return cls(components=[c.Text(text=title)], on_click=on_click, class_name=class_name)
 
     @classmethod
     def model_nav(cls, model: RoutableModel) -> c.Link:
