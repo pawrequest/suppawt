@@ -1,9 +1,9 @@
 from .fastui_support import (
-    CSSEnum,
+    STYLES,
     Col,
     Container,
     DivPR,
-    LayoutMode,
+    WrapMode,
     LinkPR,
     NavbarPR,
     PagePR,
@@ -13,5 +13,5 @@ from .fastui_support import (
 
 # from fastui2 import Col, DivPR, Row, LayoutMode
 
-__all__ = ['CSSEnum', 'DivPR', 'Row', 'Col', 'Container', 'PagePR', 'LinkPR', 'NavbarPR',
-           'RoutableModel', 'LayoutMode']
+__all__ = ['STYLES', 'DivPR', 'Row', 'Col', 'Container', 'PagePR', 'LinkPR', 'NavbarPR',
+           'RoutableModel', 'WrapMode']
