@@ -65,9 +65,9 @@ class DivPR(c.Div):
         elif layout_mode == LayoutMode.NESTED:
             individually_wrapped = [wrap_in(components=[comp], class_name=class_name) for comp in
                                     components]
-
             wrapped_components = [
                 inner_wrap(components=individually_wrapped, class_name=class_name)]
+
 
         super().__init__(components=wrapped_components, class_name=class_name)
 
