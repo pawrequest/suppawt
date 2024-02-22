@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Union
 
-from pawsupport.fastui_ps import Row, Col
+from fastui import components as c
 
-WrapIn = Union[type[Row], type[Col]]
+from pawsupport.fastui_ps import Col, Container, Row
+
+WrapIn = Union[type[Row], type[Col], type[Container], type[c.Div]]

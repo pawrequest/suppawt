@@ -5,10 +5,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Optional, Protocol, TYPE_CHECKING
+from typing import Literal, Optional, Protocol, TYPE_CHECKING
 
+from pydantic import BaseModel
 from fastui.events import BackEvent, GoToEvent
 from fastui import AnyComponent, components as c
+from loguru import logger
 
 if TYPE_CHECKING:
     from pawsupport.fastui_ps.types import WrapIn
@@ -17,32 +19,52 @@ _DFLT_CSS_STR = "text-center py-1 my-1"
 
 class STYLES:
     LINK = "btn btn-primary"
-    COL = "col"
-    ROW = 'my-1 border border-bottom border-secondary rounded shadow-sm'
-    HEAD = 'my-1 col border'
-    CONTAINER = 'container'
+    COL = "col gap-3 border"
+    ROW = 'row gap-3 border'
+    HEAD = ''
+    CONTAINER = 'container border'
     PAGE = ''
 
     # HEAD_DIV = f"{PLAIN}"
-    HEAD_ROW = "my-1 col border"
-    TITLE_COL = "col-4"
+    HEAD_ROW = "col border"
+    TITLE_COL = "col"
     SUB_LIST = ""
 
 
-def check_wrap_mode(wparam: WrapParam):
-    if wparam.wrap_mode not in ([WrapMode.SINGLE, WrapMode.NONE]):
-        if not wparam.wrap_inner:
-            raise ValueError("wrap_in must be specified for MULTIPLE or NESTED layout modes")
-        if wparam.wrap_mode == WrapMode.NESTED and not wparam.wrap_outer:
-            raise ValueError(
-                "wrap_inner and wrap_outer must be specified for NESTED layout mode"
-            )
+def get_style(cls, css_class_name):
+    inner_style = f'{getattr(STYLES, cls.__name__.upper(), '')} {css_class_name}'
+    return inner_style
+
+
+def all_text(*objs: BaseModel, with_keys: Literal['NO', 'YES', 'ONLY'] = 'NO') -> 'list[c.Text]':
+    txts = []
+    for obj in objs:
+        for k, v in obj.model_dump().items():
+            if not v:
+                continue
+            if isinstance(v, str):
+                txt_str = ''
+                if with_keys == 'NO':
+                    txt_str = v
+                elif with_keys == 'YES':
+                    txt_str = f'{k} - {v}'
+                elif with_keys == 'ONLY':
+                    txt_str = k
+                txts.append(c.Text(text=txt_str))
+    return txts
+
+
+# def check_wrap_mode(wparam: WrapParam):
+#     if wparam.wrap_mode is not WrapMode.SINGLE, WrapMode.MULTIPLE,
+#                             WrapMode.NESTED] and not wparam.wrap_inner:
+#         raise ValueError()
+#     if wparam.wrap_mode == WrapMode.NESTED and not wparam.wrap_outer:
+#         raise ValueError()
 
 
 class WrapMode(Enum):
-    NONE = auto()  # No wrapping
     SINGLE = auto()  # All components in a single row/col
-    MULTIPLE = auto()  # Each component in its own row/col
+    # MULTIPLE = auto()  # Each component in its own row/col
     NESTED = auto()  # Each component in its own row/col, all nested in another row/col
 
 
@@ -58,51 +80,89 @@ class DivPR(c.Div):
     def wrap(
             cls,
             *components: AnyComponent,
-            class_name: str = '',
-            wrap_mode: WrapMode = WrapMode.NONE,
+            inner_class_name: str = '',
+            outer_class_name: str = '',
             wrap_inner: Optional[WrapIn] = None,
-            wrap_outer: Optional[WrapIn] = None
-    ):
-        wparam = WrapParam(wrap_mode, wrap_inner, wrap_outer)
-        check_wrap_mode(wparam)
+    ) -> AnyComponent | list[AnyComponent]:
 
-        # components are not wrapped
-        if wrap_mode == WrapMode.NONE:
-            components2 = list(components)
-            ret = cls(components=components2, class_name=class_name)
-            return ret
+        outer_style = get_style(cls, outer_class_name)
+        inner_style = get_style(wrap_inner, inner_class_name) if wrap_inner else ''
 
-        # components are wrapped together in a single row or col
-        elif wrap_mode == WrapMode.SINGLE:
-            wrapped = wrap_inner.wrap(*components, class_name=class_name, wrap_mode=WrapMode.NONE)
-
-        # each component is wrapped in its own row or col
-        elif wrap_mode == WrapMode.MULTIPLE:
-            wrappees = [wrap_inner.wrap(_, class_name=class_name, wrap_mode=WrapMode.NONE) for _ in
-                        components]
-            # wrapped = wrap_inner.wrap(*wrappees, class_name=class_name, wrap_mode=WrapMode.SINGLE)
-            return wrappees
-
-
-        # each component is wrapped in its own row or col, nested together in another row or col
-        elif wrap_mode == WrapMode.NESTED:
-            wrapped_inner = wrap_inner.wrap(
+        if wrap_inner:
+            components = wrap_inner.list_of(
                 *components,
-                class_name=class_name,
-                wrap_mode=WrapMode.MULTIPLE,
-                wrap_inner=wrap_inner
+                class_name=inner_style,
             )
 
-            wrapped = wrap_outer.wrap(
-                *wrapped_inner,
-                class_name=class_name,
-                wrap_mode=WrapMode.NONE
-            )
-        else:
-            raise ValueError(f"Invalid wrap_mode: {wrap_mode}")
+        components2 = list(components)
+        ret = cls(components=components2, class_name=outer_style)
+        return ret
 
-        return cls.wrap(wrapped, class_name=class_name, wrap_mode=WrapMode.NONE)
+        #     return cls.wrap(
+        #         *inner_comps,
+        #         inner_class_name=outer_style,
+        #         wrap_mode=WrapMode.SINGLE,
+        #         wrap_inner=cls
+        #     )
+        # else:
+        #     raise ValueError(f"Invalid wrap_mode: {wrap_mode}")
 
+
+    @classmethod
+    # def wrap1(
+    #         cls,
+    #         *components: AnyComponent,
+    #         inner_class_name: str = '',
+    #         outer_class_name: str = '',
+    #         wrap_mode: WrapMode = WrapMode.SINGLE,
+    #         wrap_outer: Optional[WrapIn] = None,
+    #         wrap_inner: Optional[WrapIn] = None,
+    # ) -> AnyComponent | list[AnyComponent]:
+    #     wrap_inner = wrap_inner or cls
+    #     inner_style = get_style(wrap_inner, inner_class_name)
+    #     outer_style = get_style(wrap_outer, outer_class_name) if wrap_outer else ''
+    #     wparam = WrapParam(wrap_mode, wrap_inner, wrap_outer)
+    #     check_wrap_mode(wparam)
+    #
+    #     # components are wrapped together
+    #     if wrap_mode == WrapMode.SINGLE:
+    #         components2 = list(components)
+    #         ret = cls(components=components2, class_name=inner_style)
+    #         return ret
+    #
+    #     # each component is wrapped in its own row or col, nested together in another row or col
+    #     elif wrap_mode == WrapMode.NESTED:
+    #         inner_comps = wrap_inner.list_of(
+    #             *components,
+    #             class_name=inner_style,
+    #         )
+    #         wrapped = wrap_outer.wrap(
+    #             *inner_comps,
+    #             inner_class_name=outer_style,
+    #             wrap_mode=WrapMode.SINGLE,
+    #             wrap_inner=wrap_outer
+    #         )
+    #     else:
+    #         raise ValueError(f"Invalid wrap_mode: {wrap_mode}")
+    #
+    #     ret = cls.wrap(
+    #         wrapped,
+    #         inner_class_name=inner_class_name,
+    #         wrap_mode=WrapMode.SINGLE,
+    #         wrap_inner=Row
+    #     )
+    #     return ret
+
+    @classmethod
+    def list_of(
+            cls,
+            *components: AnyComponent,
+            class_name: str = '',
+    ) -> list[AnyComponent]:
+        style = get_style(cls, class_name)
+        divs = [cls(components=[comp], class_name=style)
+                for comp in components]
+        return divs
 
     @classmethod
     def empty(cls) -> 'DivPR':
@@ -110,25 +170,7 @@ class DivPR(c.Div):
 
 
 class Row(DivPR):
-    class_name: str = "row"
-
-    @classmethod
-    def wrap(
-            cls,
-            *components: AnyComponent,
-            class_name: str = '',
-            wrap_mode: WrapMode = WrapMode.NONE,
-            wrap_inner: Optional[WrapIn] = None,
-            wrap_outer: Optional[WrapIn] = None
-    ):
-        return super().wrap(
-            *components,
-            class_name=f'row {class_name}',
-            wrap_mode=wrap_mode,
-            wrap_inner=wrap_inner,
-            wrap_outer=wrap_outer
-        )
-
+    class_name: str = STYLES.ROW
 
     @classmethod
     def headers(cls, header_names: list[str], class_name: str = STYLES.HEAD_ROW) -> 'Row':
@@ -136,56 +178,12 @@ class Row(DivPR):
         return cls.wrap(*ls, class_name=class_name, wrap_mode=WrapMode.SINGLE)
 
 
-
 class Col(DivPR):
-    class_name: str = "col"
-
-    @classmethod
-    def wrap(
-            cls,
-            *components: AnyComponent,
-            class_name: str = '',
-            wrap_mode: WrapMode = WrapMode.NONE,
-            wrap_inner: Optional[WrapIn] = None,
-            wrap_outer: Optional[WrapIn] = None
-    ):
-        return super().wrap(
-            *components,
-            class_name=f'col {class_name}',
-            wrap_mode=wrap_mode,
-            wrap_inner=wrap_inner,
-            wrap_outer=wrap_outer
-        )
-
+    class_name: str = STYLES.COL
 
 
 class Container(DivPR):
-    @classmethod
-    def wrap(
-            cls,
-            *components: AnyComponent,
-            class_name: str = '',
-            wrap_mode: WrapMode = WrapMode.NONE,
-            wrap_inner: Optional[WrapIn] = None,
-            wrap_outer: Optional[WrapIn] = None
-    ):
-        return super().wrap(
-            *components,
-            class_name=f'container {class_name}',
-            wrap_mode=wrap_mode,
-            wrap_inner=wrap_inner,
-            wrap_outer=wrap_outer
-        )
-
-
-@classmethod
-def from_list(cls, *components: AnyComponent, class_name: str = '') -> DivPR:
-    return cls(*components, class_name=class_name)
-
-
-@classmethod
-def empty(cls):
-    return cls(DivPR.empty())
+    class_name: str = STYLES.CONTAINER
 
 
 class PagePR(c.Page):
