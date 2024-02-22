@@ -1,6 +1,6 @@
 import logging
 
-from pawlogger import configure_logging
+from pawsupport.logging_ps.config import configure_logging
 
 
 def get_logger(log_file, level=logging.DEBUG):
