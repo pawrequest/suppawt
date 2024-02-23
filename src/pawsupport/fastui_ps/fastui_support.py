@@ -10,7 +10,6 @@ from typing import Literal, Optional, Protocol, TYPE_CHECKING
 from pydantic import BaseModel
 from fastui.events import BackEvent, GoToEvent
 from fastui import AnyComponent, components as c
-from loguru import logger
 
 if TYPE_CHECKING:
     from pawsupport.fastui_ps.types import WrapIn
@@ -36,22 +35,28 @@ def get_style(cls, css_class_name):
     return inner_style
 
 
-def all_text(*objs: BaseModel, with_keys: Literal['NO', 'YES', 'ONLY'] = 'NO') -> 'list[c.Text]':
-    txts = []
-    for obj in objs:
-        for k, v in obj.model_dump().items():
-            if not v:
-                continue
-            if isinstance(v, str):
-                txt_str = ''
-                if with_keys == 'NO':
-                    txt_str = v
-                elif with_keys == 'YES':
-                    txt_str = f'{k} - {v}'
-                elif with_keys == 'ONLY':
-                    txt_str = k
-                txts.append(c.Text(text=txt_str))
-    return txts
+class Text(c.Text):
+    @classmethod
+    def all_text(
+            cls,
+            *objs: BaseModel,
+            with_keys: Literal['NO', 'YES', 'ONLY'] = 'NO'
+    ) -> 'list[Text]':
+        txts = []
+        for obj in objs:
+            for k, v in obj.model_dump().items():
+                if not v:
+                    continue
+                if isinstance(v, str):
+                    txt_str = ''
+                    if with_keys == 'NO':
+                        txt_str = v
+                    elif with_keys == 'YES':
+                        txt_str = f'{k} - {v}'
+                    elif with_keys == 'ONLY':
+                        txt_str = k
+                    txts.append(cls(text=txt_str))
+        return txts
 
 
 # def check_wrap_mode(wparam: WrapParam):
@@ -84,7 +89,6 @@ class DivPR(c.Div):
             outer_class_name: str = '',
             wrap_inner: Optional[WrapIn] = None,
     ) -> AnyComponent | list[AnyComponent]:
-
         outer_style = get_style(cls, outer_class_name)
         inner_style = get_style(wrap_inner, inner_class_name) if wrap_inner else ''
 
@@ -106,7 +110,6 @@ class DivPR(c.Div):
         #     )
         # else:
         #     raise ValueError(f"Invalid wrap_mode: {wrap_mode}")
-
 
     @classmethod
     # def wrap1(
@@ -172,10 +175,10 @@ class DivPR(c.Div):
 class Row(DivPR):
     class_name: str = STYLES.ROW
 
-    @classmethod
-    def headers(cls, header_names: list[str], class_name: str = STYLES.HEAD_ROW) -> 'Row':
-        ls = [c.Text(text=_) for _ in header_names]
-        return cls.wrap(*ls, class_name=class_name, wrap_mode=WrapMode.SINGLE)
+    # @classmethod
+    # def headers(cls, header_names: list[str], class_name: str = STYLES.HEAD_ROW) -> 'Row':
+    #     ls = [c.Text(text=_) for _ in header_names]
+    #     return cls.wrap(*ls, class_name=class_name, wrap_mode=WrapMode.SINGLE)
 
 
 class Col(DivPR):
