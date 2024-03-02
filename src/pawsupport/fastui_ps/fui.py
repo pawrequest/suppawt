@@ -85,7 +85,7 @@ class DivPR(c.Div):
 
     @classmethod
     def empty(cls) -> "DivPR":
-        return cls(components=[c.Text(text="---")])
+        return cls(components=[c.Text(text="")], class_name=css.EMPTY)
 
 
 class Row(DivPR):

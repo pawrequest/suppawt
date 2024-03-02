@@ -12,5 +12,6 @@ PAGE = ''
 HEAD_ROW = "col border"
 TITLE_COL = "col"
 SUB_LIST = ""
+EMPTY = ""
 
 
