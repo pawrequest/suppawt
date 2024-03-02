@@ -1,16 +1,17 @@
 from __future__ import annotations
-"""
-functions for configuring loguru
-"""
+
 import functools
 import logging
 import sys
 from typing import Literal
 
 from loguru import logger
+"""
+functions for configuring loguru
+"""
 
 
-def get_loguru(log_file, profile: Literal["local", "remote", "default"] = None) -> logger:
+def get_loguru(log_file, profile: Literal["local", "remote", "default"] = 'local') -> logger:
     """
     Configure loguru logger
 
@@ -23,9 +24,6 @@ def get_loguru(log_file, profile: Literal["local", "remote", "default"] = None) 
         terminal_format = log_fmt_local_terminal
     elif profile == "remote":
         logger.info("Using remote log profile")
-        terminal_format = log_fmt_server_terminal
-    elif profile == 'defailt' or profile is None:
-        logger.info("Using default log profile (remote)")
         terminal_format = log_fmt_server_terminal
     else:
         raise ValueError(f"Invalid profile: {profile}")
