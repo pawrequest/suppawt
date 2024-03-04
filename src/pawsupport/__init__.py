@@ -10,9 +10,8 @@ def can_import(module_name):
 
 
 if can_import('loguru'):
-    from . import logging_ps
+    from . import logging_ps, misc_ps
     from .types_ps import error_ps
-    from . import misc_ps
 
     if can_import('aiohttp'):
         from . import async_ps
@@ -20,15 +19,11 @@ if can_import('loguru'):
         if can_import('bs4'):
             from . import html_ps
 
-    if can_import('fastui'):
-        from . import fastui_ps
-
     if can_import('context_menu'):
         pass
 
     if can_import('sqlmodel'):
         from . import sqlmodel_ps
-
 
 
 __all__ = [
@@ -40,7 +35,6 @@ __all__ = [
     'misc_ps',
     'async_ps',
     'html_ps',
-    'fastui_ps',
     'backup_ps',
     'sqlmodel_ps',
 ]
