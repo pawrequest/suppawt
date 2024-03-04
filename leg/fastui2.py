@@ -3,7 +3,7 @@
 # from enum import Enum, auto
 # from typing import Optional
 #
-# from fastui import AnyComponent, components as c
+# from fastuipr import AnyComponent, components as c
 #
 # from pawsupport.fastui_ps import DFLT_CSS
 #

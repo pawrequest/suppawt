@@ -8,8 +8,8 @@
 # from typing import Optional, Protocol, TYPE_CHECKING
 #
 # from pydantic import BaseModel
-# from fastui.events import BackEvent, GoToEvent
-# from fastui import AnyComponent, components as c
+# from fastuipr.events import BackEvent, GoToEvent
+# from fastuipr import AnyComponent, components as c
 # from loguru import logger
 #
 # if TYPE_CHECKING:
