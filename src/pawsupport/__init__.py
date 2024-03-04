@@ -6,6 +6,8 @@ from .pdf_tools.array_pdf import convert_print_silent2
 
 def can_import(module_name):
     spec = importlib.util.find_spec(module_name)
+    msg = f'can import: {module_name}' if spec is not None else f'can not import: {module_name}'
+    print(msg)
     return spec is not None
 
 
@@ -23,8 +25,7 @@ if can_import('loguru'):
         pass
 
     if can_import('sqlmodel'):
-        from . import sqlmodel_ps
-
+        from .sqlmodel_ps import sqlpr, sqlpr_test
 
 __all__ = [
     'convert',
@@ -36,5 +37,6 @@ __all__ = [
     'async_ps',
     'html_ps',
     'backup_ps',
-    'sqlmodel_ps',
+    'sqlpr',
+    'sqlpr_test',
 ]
