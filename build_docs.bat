@@ -6,7 +6,7 @@ call "%PROJECT_DIR%\%VENV_NAME%\Scripts\activate.bat"
 python -m pip install --upgrade pip
 
 cd /d "%PROJECT_DIR%"
-pip install .[fastui,bs4,sqlmodel,office,docs,dev]
+pip install .[fastuipr,bs4,sqlmodel,office,docs,dev]
 
 sphinx-build -b html "%PROJECT_DIR%\docs" "%PROJECT_DIR%\docs\_build"
 

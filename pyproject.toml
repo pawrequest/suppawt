@@ -9,13 +9,13 @@ authors = [
 dependencies = [
     'loguru',
     'context-menu',
+    "fastuipr",
 ]
 readme = "README.md"
 requires-python = ">= 3.10"
 
 [project.optional-dependencies]
 fast = [
-    "fastuipr",
     "fastapi",
     'uvicorn',
     "sqlmodel",
