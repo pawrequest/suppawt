@@ -25,7 +25,9 @@ if can_import('loguru'):
         pass
 
     if can_import('sqlmodel'):
-        from .sqlmodel_ps import sqlpr, sqlpr_test
+        from .sqlmodel_ps import sqlpr
+        if can_import('pytest'):
+            from .sqlmodel_ps import sqlpr_test
 
 __all__ = [
     'convert',
