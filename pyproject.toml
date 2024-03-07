@@ -8,14 +8,13 @@ authors = [
 
 dependencies = [
     'loguru',
-    'context-menu',
-    "fastuipr",
 ]
 readme = "README.md"
 requires-python = ">= 3.10"
 
 [project.optional-dependencies]
 fast = [
+    "fastuipr @git+https://github.com/pawrequest/fastuipr",
     "fastapi",
     'uvicorn',
     "sqlmodel",
@@ -25,6 +24,8 @@ html = [
     "beautifulsoup4",
 ]
 office = [
+    'context-menu',
+    'pypdf',
     "docxtpl",
     "pywin32; sys_platform == 'win32'",
     "openpyxl",
