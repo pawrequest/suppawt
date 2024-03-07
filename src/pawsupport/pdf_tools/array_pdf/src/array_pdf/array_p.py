@@ -1,5 +1,5 @@
-import argparse
 import os
+from argparse import ArgumentParser
 from pathlib import Path
 
 from pypdf import PaperSize, PdfReader, PdfWriter, Transformation
@@ -8,49 +8,45 @@ from pypdf.papersizes import Dimensions
 ADDED_MARGIN = 0.2
 
 
-def main():
-    parser = argparse.ArgumentParser(description='Scale and arrange PDF pages on A4 sheets.')
-    parser.add_argument('input', help='Path to the input PDF file or dir with PDF files')
+def create_parser():
+    parser = ArgumentParser(description='Array A6 PDFS on A4.')
+    parser.add_argument('--input_path', '-i', required=True, type=Path, help='A6 PDF input path.')
     parser.add_argument(
+        '--output_dir',
         '-o',
-        '--out_dir',
-        help='Path to the output dir, optional - defaults to cwd/output'
+        type=Path,
+        help='Output dir. Defaults to input/arrayed'
     )
-
-    parser.add_argument(
-        '--print',
-        action='store_true',
-        help='Print the output PDF after processing'
-    )
-
-    args = parser.parse_args()
-    print(args)
-    inpath = Path(args.input)
-    if inpath.is_file():
-        input_files = [Path(args.input)]
-    elif inpath.is_dir():
-        input_files = list(inpath.glob('*.pdf'))
-    else:
-        raise ValueError('Invalid input path - must be a PDF file or a directory.')
-
-    output_dir = args.out_dir or Path.cwd() / 'pdf_array'
-    convert_many(input_files, output_dir, print_files=args.print)
+    parser.add_argument('--print_files', action='store_true', help='Print the output.')
+    return parser
 
 
+def main(args=None):
+    parser = create_parser()
+    args = parser.parse_args(args)
 
-def convert_many(input_files: list[Path], output_dir: Path, *, print_files=False):
+    input_path = args.input_path.resolve()
+    if not input_path.exists():
+        raise ValueError(f'{input_path=} does not exist')
+    print(f'{input_path=}')
+
+    output_dir = args.output_dir.resolve() if args.output_dir else None
+    if output_dir and not output_dir.exists():
+        output_dir.mkdir(parents=True)
+
+    convert_many(input_path, output_dir=output_dir, print_files=args.print_files)
+
+
+def convert_many(*input_files: Path, output_dir: Path = None, print_files=False):
+    input_files = list(input_files)
+    output_dir = output_dir or input_files[0].parent / 'arrayed'
     output_dir.mkdir(exist_ok=True)
     for file in input_files:
         output_file = output_dir / f'{file.stem}_on_a4.pdf'
-        print(f'Processing {file.name}...')
+        print(f'Processing {file.name} into {output_file}...')
         on_a4(file, output_file)
-        print(f'Output file: {output_file}')
         if print_files:
             os.startfile(output_file, 'print')
-
-
-def convert_one(input_file: Path, output_dir: Path, *, print_file=False):
-    ...
 
 
 def get_scale_factor(input_size: Dimensions, output_size: Dimensions) -> float:
@@ -65,9 +61,9 @@ def on_a4(
         output_size=PaperSize.A4,
 ):
     if not input_file.is_file():
-        raise ValueError('Invalid input file path.')
+        raise ValueError(f'Invalid input file path {input_file} of type {type(input_file)}.')
     if output_file.suffix != '.pdf':
-        raise ValueError('Invalid output file path.')
+        raise ValueError('Ouput path not .pdf.')
     reader = PdfReader(input_file)
 
     input_size = Dimensions(reader.pages[0].mediabox.width, reader.pages[0].mediabox.height)
@@ -110,29 +106,6 @@ def get_translation_dims(in_size: Dimensions, out_size: Dimensions) -> tuple[flo
     translate_y = (out_size.width - in_size.height) / 2
 
     return translate_x_left, translate_x_right, translate_y
-
-
-# def get_translation_dims(in_size: Dimensions, out_size: Dimensions) -> tuple[float, float, float]:
-#     content_width_per_side = (out_size.height / 2) * (1 - ADDED_MARGIN)
-#
-#     translate_x_left = (content_width_per_side - in_size.width) / 2
-#     translate_x_right = out_size.height / 2 + translate_x_left
-#     translate_y = (out_size.width - in_size.height) / 2
-#
-#     return translate_x_left, translate_x_right, translate_y
-def get_translation_dims2(in_size: Dimensions, out_size: Dimensions) -> tuple[float, float, float]:
-    available_width_per_side = (out_size.height / 2) - (2 * 0.12)
-
-    # available_width_per_side = (out_size.height / 2) - (2 * ADDED_MARGIN)
-    trans_l_x = out_size.height / 2 - available_width_per_side
-    trans_r_x = trans_l_x + out_size.height / 2
-
-    # translate_x_left = ((out_size.height / 2) - in_size.width) / 2
-    # translate_x_right = translate_x_left + out_size.height / 2
-
-    translate_y = (out_size.width - in_size.height) / 2
-
-    return trans_l_x, trans_r_x, translate_y
 
 
 if __name__ == '__main__':
