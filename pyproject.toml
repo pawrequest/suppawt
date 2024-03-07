@@ -1,6 +1,6 @@
 [project]
 name = "pawsupport"
-version = "0.1.2"
+version = "0.2"
 description = "utils"
 authors = [
     { name = "paw", email = "pawrequest@users.noreply.github.com" }
