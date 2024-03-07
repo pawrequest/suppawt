@@ -1,7 +1,8 @@
 import importlib.util
 
 from . import backup_ps, convert, types_ps
-from .pdf_tools.array_pdf import convert_print_silent2
+from . import logging_ps, misc_ps
+from .types_ps import error_ps
 
 
 def can_import(module_name):
@@ -11,28 +12,27 @@ def can_import(module_name):
     return spec is not None
 
 
-if can_import('loguru'):
-    from . import logging_ps, misc_ps
-    from .types_ps import error_ps
 
-    if can_import('aiohttp'):
-        from . import async_ps
+if can_import('aiohttp'):
+    from . import async_ps
 
-        if can_import('bs4'):
-            from . import html_ps
+    if can_import('bs4'):
+        from . import html_ps
 
-    if can_import('context_menu'):
-        pass
+if can_import('context_menu'):
+    pass
 
-    if can_import('sqlmodel'):
-        from .sqlmodel_ps import sqlpr
-        if can_import('pytest'):
-            from .sqlmodel_ps import sqlpr_test
+if can_import('sqlmodel'):
+    from .sqlmodel_ps import sqlpr
+    if can_import('pytest'):
+        from .sqlmodel_ps import sqlpr_test
+
+if can_import('pypdf') and can_import('context-menu'):
+    from .pdf_tools import array_pdf
 
 __all__ = [
     'convert',
     'types_ps',
-    'convert_print_silent2',
     'logging_ps',
     'error_ps',
     'misc_ps',
@@ -41,4 +41,5 @@ __all__ = [
     'backup_ps',
     'sqlpr',
     'sqlpr_test',
+    'array_pdf'
 ]
