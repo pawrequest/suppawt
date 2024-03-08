@@ -15,8 +15,9 @@ requires-python = ">= 3.12"
 [project.optional-dependencies]
 fast = [
     "fastuipr @git+https://github.com/pawrequest/fastuipr",
+    'flaskwebgui @git+https://github.com/pawrequest/flaskwebgui',
     "fastapi",
-    'uvicorn',
+    'uvicorn[standard]',
     "sqlmodel",
 ]
 html = [
