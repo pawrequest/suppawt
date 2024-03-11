@@ -9,7 +9,7 @@ python -m venv .venv_doc
 if [ -f ".venv_doc/bin/activate" ]; then
     source .venv_doc/bin/activate
     pip install --upgrade pip
-    pip install .[fastui,bs4,sqlmodel,office,docs,dev]
+    pip install .[fastuipr,bs4,sqlmodel,office,docs,dev]
 
     # Optionally, install any additional packages required for building the docs
     # pip install sphinx sphinx-rtd-theme
