@@ -1,6 +1,6 @@
 [project]
 name = "pawsupport"
-version = "0.1.2"
+version = "0.2"
 description = "utils"
 authors = [
     { name = "paw", email = "pawrequest@users.noreply.github.com" }
@@ -8,16 +8,16 @@ authors = [
 
 dependencies = [
     'loguru',
-    'context-menu',
 ]
 readme = "README.md"
-requires-python = ">= 3.10"
+requires-python = ">= 3.12"
 
 [project.optional-dependencies]
 fast = [
-    "fastui",
+    "fastuipr @git+https://github.com/pawrequest/fastuipr",
+    'flaskwebgui @git+https://github.com/pawrequest/flaskwebgui',
     "fastapi",
-    'uvicorn',
+    'uvicorn[standard]',
     "sqlmodel",
 ]
 html = [
@@ -25,11 +25,12 @@ html = [
     "beautifulsoup4",
 ]
 office = [
+    'context-menu',
+    'pypdf',
     "docxtpl",
     "pywin32; sys_platform == 'win32'",
     "openpyxl",
     "docx2pdf",
-    "pysimplegui",
     "comtypes",
     "pypdf",
 ]

@@ -51,9 +51,9 @@ Welcome to PawSupport's documentation!
 
 
 
-* `FastUI Utils: <https://pawsupport.readthedocs.io/en/latest/rst_pages/fastui.html>`_
+* `FastUI Utils: <https://pawsupport.readthedocs.io/en/latest/rst_pages/fastuipr.html>`_
 
-  * `FastUI backup <https://pawsupport.readthedocs.io/en/latest/rst_pages/fastui.html#module-pawsupport.fastui_ps.fastui_support>`_
+  * `FastUI backup <https://pawsupport.readthedocs.io/en/latest/rst_pages/fastuipr.html#module-pawsupport.fastui_ps.fui>`_
 
 
 
