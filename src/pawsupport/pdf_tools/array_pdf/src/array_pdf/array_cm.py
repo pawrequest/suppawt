@@ -3,7 +3,7 @@ from pathlib import Path
 
 from context_menu import menus
 
-from array_pdf import convert_many
+from .array_p import convert_many
 
 MENU_NAME = 'Array and Print PDF'
 EXE_PATH = r"R:\paul_r\array_p.exe"
