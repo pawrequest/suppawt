@@ -6,7 +6,7 @@ import re
 from typing import Literal
 
 from .convert import to_snake
-from .types_ps.typ import HasTitleOrName
+from .types import HasTitleOrName
 
 
 

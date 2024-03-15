@@ -14,7 +14,7 @@ requires-python = ">= 3.12"
 
 [project.optional-dependencies]
 fast = [
-    "fastuipr @git+https://github.com/pawrequest/fastuipr",
+    'fastuipr @git+https://github.com/pawrequest/fastuipr',
     'flaskwebgui @git+https://github.com/pawrequest/flaskwebgui',
     "fastapi",
     'uvicorn[standard]',
@@ -41,6 +41,11 @@ doc = [
     "sphinx-readme",
     "myst-parser",
 ]
+dev = [
+    'pytest',
+    'pytest-asyncio',
+
+]
 
 
 [build-system]
@@ -48,7 +53,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.rye]
-managed = true
+managed = false
 dev-dependencies = [
     'pytest',
     'pytest-asyncio',
