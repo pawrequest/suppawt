@@ -1,5 +1,5 @@
 [project]
-name = "pawsupport"
+name = "suppawt"
 version = "0.2"
 description = "utils"
 authors = [
@@ -14,11 +14,14 @@ requires-python = ">= 3.12"
 
 [project.optional-dependencies]
 fast = [
-    'fastuipr @git+https://github.com/pawrequest/fastuipr',
     'flaskwebgui @git+https://github.com/pawrequest/flaskwebgui',
+    'fastuipr',
     "fastapi",
     'uvicorn[standard]',
     "sqlmodel",
+]
+from-git = [
+    'fastuipr @git+https://github.com/pawrequest/fastuipr',
 ]
 html = [
     "aiohttp",
@@ -53,7 +56,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.rye]
-managed = false
+managed = true
 dev-dependencies = [
     'pytest',
     'pytest-asyncio',

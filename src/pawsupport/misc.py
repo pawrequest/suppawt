@@ -10,7 +10,7 @@ from typing import Literal, Sized
 from loguru import logger
 
 from .get_set import title_or_name_val
-from .types_ps import HasTitleOrName
+from .types import HasTitleOrName
 
 
 def param_or_env(
