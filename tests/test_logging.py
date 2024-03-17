@@ -1,4 +1,4 @@
-from pawsupport import get_logger
+from suppawt import get_logger
 
 def test_logging():
     logger = get_logger(__name__)

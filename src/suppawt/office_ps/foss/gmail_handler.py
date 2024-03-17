@@ -1,6 +1,6 @@
 import webbrowser
 
-from pawsupport.office_ps.email_handler import EmailHandler, Email
+from suppawt.office_ps.email_handler import EmailHandler, Email
 
 
 class GmailHandler(EmailHandler):

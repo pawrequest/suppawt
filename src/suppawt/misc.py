@@ -1,5 +1,5 @@
 """
-general purpose functions for pawsupport.
+general purpose functions for suppawt.
 """
 from __future__ import annotations
 

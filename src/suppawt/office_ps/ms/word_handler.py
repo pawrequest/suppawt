@@ -3,7 +3,7 @@ from typing import Tuple, Any
 
 from comtypes.client import CreateObject
 from docx2pdf import convert
-from pawsupport.office_ps.doc_handler import DocHandler
+from suppawt.office_ps.doc_handler import DocHandler
 
 
 class WordHandler(DocHandler):

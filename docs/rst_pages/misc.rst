@@ -7,7 +7,7 @@ Misc
 Misc stuff
 ###############
 
-.. automodule:: pawsupport.misc_ps
+.. automodule:: suppawt.misc_ps
     :members:
     :private-members:
     :member-order: groupwise
@@ -17,7 +17,7 @@ Misc stuff
 ###############
 Get and Set
 ###############
-.. automodule:: pawsupport.get_set
+.. automodule:: suppawt.get_set
     :members:
     :private-members:
     :member-order: groupwise

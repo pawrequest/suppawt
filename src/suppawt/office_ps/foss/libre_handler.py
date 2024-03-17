@@ -4,7 +4,7 @@ import webbrowser
 from pathlib import Path
 from typing import Any
 
-from pawsupport.office_ps.doc_handler import DocHandler
+from suppawt.office_ps.doc_handler import DocHandler
 
 
 class LibreHandler(DocHandler):

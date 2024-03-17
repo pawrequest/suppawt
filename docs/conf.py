@@ -1,4 +1,4 @@
-project = 'PawSupport'
+project = 'suppawt'
 author = 'PawRequest'
 release = '0.0.1'
 copyright = f'2024, {author}'
@@ -20,9 +20,9 @@ html_static_path = ['_static']
 html_context = {
     'display_github': True,
     'github_user': 'PawRequest',
-    'github_repo': 'pawsupport',
+    'github_repo': 'suppawt',
 }
-html_baseurl = "https://pawsupport.readthedocs.io/en/latest"
+html_baseurl = "https://suppawt.readthedocs.io/en/latest"
 readme_src_files = "index.md"
 readme_docs_url_type = "html"
 add_module_names = False
