@@ -1,0 +1,5 @@
+file:///C:/Users/Giles/prdev/amdev/pycommence
+file:///C:/Users/Giles/prdev/amdev/fastuipr
+file:///C:/Users/Giles/prdev/amdev/shipr
+file:///C:/Users/Giles/prdev/amherst
+git+https://github.com/pawrequest/flaskwebgui
