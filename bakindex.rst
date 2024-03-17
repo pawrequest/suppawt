@@ -1,5 +1,5 @@
 ***************************************
-Welcome to PawSupport's documentation!
+Welcome to suppawt's documentation!
 ***************************************
 
 

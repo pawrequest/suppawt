@@ -1,4 +1,4 @@
-# PawSupport Wiki
+# suppawt Wiki
 ```{toctree}
 :maxdepth: 2
 wiki/stories/stor

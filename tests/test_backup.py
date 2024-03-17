@@ -3,7 +3,7 @@ import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from pawsupport.backup_ps import Pruner
+from suppawt.backup_ps import Pruner
 
 
 def test_backup_pruning():
