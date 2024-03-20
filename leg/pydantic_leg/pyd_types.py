@@ -28,17 +28,20 @@ def truncate_before(maxlength) -> _p.BeforeValidator:
     return _p.BeforeValidator(_truncate)
 
 
-def TruncatedSafeStr(max_length: int):
-    return _ty.Annotated[SafeStr, _p.StringConstraints(max_length=max_length), truncate_before(max_length)]
-
-
-def TruncatedSafeMaybeStr(max_length: int):
+def truncated_safe_str_type(max_length: int):
     return _ty.Annotated[
-        SafeStr, _p.StringConstraints(max_length=max_length), truncate_before(max_length), _p.Field('')
+        SafeStr, _p.StringConstraints(max_length=max_length), truncate_before(max_length)]
+
+
+def optional_truncated_safe_str_type(max_length: int):
+    return _ty.Annotated[
+        SafeStr, _p.StringConstraints(max_length=max_length), truncate_before(max_length), _p.Field(
+            ''
+        )
     ]
 
 
-excluded_chars = {'C', 'I', 'K', 'M', 'O', 'V'}
+pc_excluded = {'C', 'I', 'K', 'M', 'O', 'V'}
 
 
 def validate_uk_postcode(v: str):
@@ -53,7 +56,8 @@ def is_valid_postcode(s):
     return bool(re.match(pattern, s))
 
 
-ValidPostcode = _ty.Annotated[str, _p.BeforeValidator(validate_uk_postcode), _p.BeforeValidator(lambda v: v.upper())]
+ValidPostcode = _ty.Annotated[
+    str, _p.BeforeValidator(validate_uk_postcode), _p.BeforeValidator(lambda v: v.upper())]
 
 
 def default_gen(typ, **kwargs):
