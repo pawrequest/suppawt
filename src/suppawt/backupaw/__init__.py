@@ -4,4 +4,4 @@ from .pruner import Pruner
 from pawdantic.pawsql.schedule import schedule_backup_prune
 
 
-__all__ = ['Pruner', 'SQLModelBackup', 'schedule_backup_prune']
+__all__ = ['Pruner', 'schedule_backup_prune']
