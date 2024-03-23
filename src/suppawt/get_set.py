@@ -2,12 +2,9 @@
 functions for getting and setting attributes on objects.
 """
 import hashlib
-import re
 from typing import Literal
 
-from .convert import to_snake
 from .types import HasTitleOrName
-
 
 
 def title_or_name_val(obj: HasTitleOrName) -> str:
@@ -22,37 +19,6 @@ def title_or_name_val(obj: HasTitleOrName) -> str:
     if not res:
         raise ValueError(f"Can't find title or name on {obj}")
     return res
-
-
-def title_from_snake(s):
-    """
-    Convert a snake_case string to a title case string
-
-    :param s: snake_case string
-    :return: title case string
-    """
-    s = s.replace("_", " ")
-    return re.sub(r"(?<!^)(?=[A-Z])", " ", s).title()
-
-
-def snake_name(obj) -> str:
-    """
-    Get the snake_case name of an object
-
-    :param obj: object to get name from
-    :return: snake_case name of object
-    """
-    return to_snake(obj.__name__).lower()
-
-
-def snake_name_s(obj) -> str:
-    """
-    Get the snake_case name of an object, pluralized
-
-    :param obj: object to get name from
-    :return: snake_case name of object, pluralized
-    """
-    return f"{to_snake(obj.__name__).lower()}s"
 
 
 def get_hash(obj: object) -> str:
