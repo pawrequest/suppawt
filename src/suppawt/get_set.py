@@ -52,7 +52,6 @@ def get_hash(obj: object) -> str:
 
     if not mapped:
         raise ValueError(f"Can't find any hashable attributes on {obj}")
-    print('HASHED:\n', mapped)
     return hash_simple_md5(mapped)
 
 
