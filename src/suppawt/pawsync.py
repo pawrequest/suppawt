@@ -7,10 +7,9 @@ from aiohttp import ClientError, ClientSession
 from loguru import logger
 
 
-
-def quiet_cancel_as(func: callable) -> callable:
+def quiet_cancel(func: callable) -> callable:
     """
-    Decorator to catch CancelledError and log it quietly
+    Async Decorator to catch CancelledError and log it quietly
 
     :param func: function to decorate
     :return: decorated function
@@ -20,27 +19,32 @@ def quiet_cancel_as(func: callable) -> callable:
         try:
             return await func(*args, **kwargs)
         except asyncio.CancelledError:
-            print(f"Func {func.__name__} Cancelled")
-
-    return wrapper
-
-
-def quiet_cancel_try_log_as(func: callable) -> callable:
-    """
-    Decorator to catch CancelledError and log it quietly
-
-    :param func: function to decorate
-    :return: decorated function
-    """
-    async def wrapper(*args, **kwargs):
-        try:
-            return await func(*args, **kwargs)
-        except asyncio.CancelledError:
-            print(f"Func {func.__name__} Cancelled")
+            logger.info(f"'{func.__name__}' Cancelled")
         except Exception as e:
-            logger.error(f"Func {func.__name__} raised {e}")
+            logger.error(f"'{func.__name__}' raised {e}")
+            raise e
 
     return wrapper
+
+
+# def quiet_cancel_try_log_as(func: callable) -> callable:
+#     """
+#     Decorator to catch CancelledError and log it quietly
+#
+#     :param func: function to decorate
+#     :return: decorated function
+#     """
+#
+#     async def wrapper(*args, **kwargs):
+#         try:
+#             return await func(*args, **kwargs)
+#         except asyncio.CancelledError:
+#             print(f"Func {func.__name__} Cancelled")
+#         except Exception as e:
+#             logger.error(f"Func {func.__name__} raised {e}")
+#             raise e
+#
+#     return wrapper
 
 
 async def response_(url: str, http_session: ClientSession) -> str:
