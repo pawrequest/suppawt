@@ -6,7 +6,7 @@ Logging Utils:
 Builtin Logging Config
 ########################
 
-.. automodule:: suppawt.logging_ps.config
+.. automodule:: suppawt.pawlogger.config
     :members:
     :private-members:
     :member-order: bysource
@@ -17,7 +17,7 @@ Builtin Logging Config
 Loguru Config
 ################
 
-.. automodule:: suppawt.logging_ps.config_loguru
+.. automodule:: suppawt.pawlogger.config_loguru
     :members:
     :private-members:
     :member-order: bysource

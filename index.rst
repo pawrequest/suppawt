@@ -65,10 +65,10 @@ Welcome to suppawt's documentation!
 
 * `Logging Utils: <https://suppawt.readthedocs.io/en/latest/rst_pages/logging.html>`_
 
-  * `Builtin Logging Config <https://suppawt.readthedocs.io/en/latest/rst_pages/logging.html#module-suppawt.logging_ps.config>`_
+  * `Builtin Logging Config <https://suppawt.readthedocs.io/en/latest/rst_pages/logging.html#module-suppawt.pawlogger.config>`_
 
 
-  * `Loguru Config <https://suppawt.readthedocs.io/en/latest/rst_pages/logging.html#module-suppawt.logging_ps.config_loguru>`_
+  * `Loguru Config <https://suppawt.readthedocs.io/en/latest/rst_pages/logging.html#module-suppawt.pawlogger.config_loguru>`_
 
 
 

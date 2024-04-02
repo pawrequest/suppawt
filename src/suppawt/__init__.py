@@ -1,4 +1,4 @@
-from . import convert, errors, get_set, misc, types
+from . import convert, errors, get_set, misc, pawlogger, types
 
 __all__ = [
     'convert',
@@ -6,4 +6,5 @@ __all__ = [
     'errors',
     'misc',
     'get_set',
+    'pawlogger',
 ]
