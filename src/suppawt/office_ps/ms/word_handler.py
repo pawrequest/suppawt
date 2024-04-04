@@ -8,7 +8,7 @@ from suppawt.office_ps.doc_handler import DocHandler
 
 class WordHandler(DocHandler):
     # todo use library
-    def display_doc(self, doc_path: Path) -> Tuple[Any, Any]:
+    def display_doc(self, doc_path: Path) -> tuple[Any, Any]:
         try:
             word = CreateObject('Word.Application')
             word.Visible = True

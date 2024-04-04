@@ -8,14 +8,15 @@ authors = [
 
 dependencies = [
     'loguru',
+    'comtypes',
 ]
 readme = "README.md"
 requires-python = ">= 3.12"
 
 [project.optional-dependencies]
 fast = [
-#    'flaskwebgui @git+https://github.com/pawrequest/flaskwebgui',
-    'flaskwebgui',
+    'flaskwebgui @git+https://github.com/pawrequest/flaskwebgui',
+#    'flaskwebgui',
     'fastuipr',
     "fastapi",
     'uvicorn[standard]',
