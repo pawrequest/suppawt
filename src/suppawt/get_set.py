@@ -15,7 +15,7 @@ def title_or_name_val(obj: HasTitleOrName) -> str:
     :return: value of title or name attribute
     """
 
-    res = getattr(obj, "title", None) or getattr(obj, "name", None)
+    res = getattr(obj, "title", None) or getattr(obj, "name")
     if not res:
         raise ValueError(f"Can't find title or name on {obj}")
     return res
@@ -94,7 +94,7 @@ def title_or_name_var(obj: HasTitleOrName) -> Literal["title", "name"]:
     Get the name of the title or name attribute on an object (not the value)
 
     :param obj: object to get title or name from, must have one of those attributes
-    :return: name of title or name attribute
+    :return: 'name' or 'title'
     """
     if hasattr(obj, "title"):
         return "title"
