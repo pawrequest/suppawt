@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
@@ -9,7 +11,17 @@ class EmailHandler(ABC):
     """
 
     @abstractmethod
-    def send_email(self, email: 'Email') -> None:
+    def send_email(self, email: Email) -> None:
+        ...
+
+
+class EmailHandlerMultipleAttachments(ABC):
+    """
+    Abstract class for handling emails
+    """
+
+    @abstractmethod
+    def send_email(self, email: EmailMultipleAttachments) -> None:
         ...
 
 
@@ -22,6 +34,22 @@ class Email:
     attachment_path: Path or None = None
 
     def send(self, sender: EmailHandler) -> None:
+        sender.send_email(self)
+
+
+@dataclass
+class EmailMultipleAttachments:
+    """Dataclass representing an email"""
+    to_address: str
+    subject: str
+    body: str
+    attachment_paths: list[Path] or None = None
+
+    def __post_init__(self):
+        if self.attachment_paths is None:
+            self.attachment_paths = []
+
+    def send(self, sender: EmailHandlerMultipleAttachments) -> None:
         sender.send_email(self)
 
 
