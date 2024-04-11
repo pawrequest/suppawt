@@ -1,10 +1,14 @@
 """
 functions for getting and setting attributes on objects.
 """
+from __future__ import annotations
+
 import hashlib
+import os
 from typing import Literal
 
-from .types import HasTitleOrName
+from . import paw_types
+from .paw_types import HasTitleOrName
 
 
 def title_or_name_val(obj: HasTitleOrName) -> str:
@@ -122,3 +126,38 @@ def url_slug_or_none(obj) -> str | None:
     :return: url or slug of object, or None if it doesn't have one
     """
     return getattr(obj, "url", getattr(obj, "slug", None))
+
+
+def instance_log_str(instance: paw_types.HasTitleOrName) -> str:
+    """
+    :param instance: The instance to log.
+    :return: class name and (title or name) of instance``.
+    """
+    return f'{instance.__class__.__name__} - {get_values.title_or_name_val(instance)}'
+
+
+def param_or_env(
+        env_key: str, value: str | None, none_is: Literal['fail', 'none', 'false'] = 'fail'
+) -> str | bool | None:
+    """
+    Return ``value``, else ``environment[env_key]``, else ``none_is`` behaviour.
+
+    :param env_key: The environment variable to check.
+    :param value: The maybe-value to return if provided.
+    :param none_is: If ``value`` and environment[env_key] are both None: "fail" raises ValueError, "none" returns None, "false" returns False.
+    :return: ``value`` | ``environment[env_key]`` | ``False`` | ``None`` | *raise*.
+    :raises: ValueError if value is None and environment variable env_key is not present and none_is=='fail'.
+
+     """
+    value = value or os.environ.get(env_key)
+    if value is None:
+        if none_is == 'none':
+            return None
+        elif none_is == 'false':
+            return False
+        elif none_is == 'fail':
+            raise ValueError(f'{env_key} was not provided and is not an environment variable')
+        else:
+            raise TypeError(f'Invalid value for none_is: {none_is}')
+
+    return value
