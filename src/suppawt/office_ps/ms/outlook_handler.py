@@ -1,3 +1,5 @@
+import pythoncom
+from loguru import logger
 from win32com.client import Dispatch
 from win32com.universal import com_error
 
@@ -16,6 +18,8 @@ class OutlookHandler(EmailHandler):
         :return: None
         """
         try:
+            pythoncom.CoInitialize()
+
             outlook = Dispatch('outlook.application')
             mail = outlook.CreateItem(0)
             mail.To = email.to_address
@@ -28,11 +32,28 @@ class OutlookHandler(EmailHandler):
             mail.Display()
             # mail = None
             # mail.Send()
-        except com_error as e:
-            msg = f'Outlook not installed - {e.args[0]}'
-            print(msg)
-            raise EmailError(msg)
         except Exception as e:
-            msg = f'Failed to send email with error: {e.args[0]}'
-            print(msg)
-            raise EmailError(msg)
+            logger.exception(f'Failed to send email with error: {e}')
+            raise EmailError(f'{e.args[0]}')
+        finally:
+            pythoncom.CoUninitialize()
+
+# def send_email(email):
+#     try:
+#         # Initialize the COM library for the current thread
+#         pythoncom.CoInitialize()
+#
+#         outlook = Dispatch('outlook.application')
+#         mail = outlook.CreateItem(0)
+#         mail.To = email.to_address
+#         mail.Subject = email.subject
+#         mail.Body = email.body
+#         if email.attachment_path:
+#             mail.Attachments.Add(str(email.attachment_path))
+#         mail.Send()
+#
+#     except Exception as e:
+#         raise EmailError(f"Outlook not installed - {e.args[0]}")
+#     finally:
+#         # Uninitialize the COM library for the current thread
+#         pythoncom.CoUninitialize()
