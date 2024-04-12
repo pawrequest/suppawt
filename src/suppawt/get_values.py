@@ -61,9 +61,9 @@ def get_hash(obj: object) -> str:
 
 def hash_simple_md5(data: list) -> str:
     """
-    Get an md5 hash for a list of strings
+    Get an md5 hash for a list of invals
 
-    :param data: list of strings to hash
+    :param data: list of invals to hash
     :return: md5 hash
     """
     return hashlib.md5(",".join(data).encode('utf-8')).hexdigest()
@@ -71,9 +71,9 @@ def hash_simple_md5(data: list) -> str:
 
 def hash_simple_md5_int(data: list) -> int:
     """
-    Get an md5 hash for a list of strings, as an integer
+    Get an md5 hash for a list of invals, as an integer
 
-    :param data: list of strings to hash
+    :param data: list of invals to hash
     :return: md5 hash
     """
     md5 = hashlib.md5()
