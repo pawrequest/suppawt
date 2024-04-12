@@ -2,27 +2,43 @@ from __future__ import annotations
 
 import typing as _t
 import warnings
-from typing import Sized
+from collections.abc import Sized
 
 from loguru import logger
 
-T = _t.TypeVar('T', bound='NestedStringSequence')
-NestedStrings = type(str | _t.Sequence[T])
+type NestedStrings = type(str | _t.Sequence[NestedStrings])
 
 
-def any_in_any(*strings: str | NestedStrings) -> list[str]:
-    flattened_strings = set(flatten(strings))
-    return [f"'{s1}' matched with '{s2}'"
-            for s1 in flattened_strings for s2 in flattened_strings
-            if s1.lower() in s2.lower() and s1.lower() != s2.lower()]
+def any_in_any(*strings: NestedStrings, match_self=False) -> set[str]:
+    strings = list(strings)
+    wrapper = list if match_self else set
+    flattened_strings = wrapper(flatten_str_seqs(strings))
+    if len(flattened_strings) < 2:
+        raise ValueError(f'Must provide more than one {'' if match_self else 'unique'} string')
+    return {
+        f"'{s1}' matched with '{s2}'"
+        for i1, s1 in enumerate(flattened_strings)
+        for i2, s2 in enumerate(flattened_strings)
+        if i1 != i2 and s1.lower() in s2.lower()
+    }
 
 
-def flatten(strings: _t.Sequence[str] | str) -> list[str]:
+def flatten_str_seqs(strings: NestedStrings) -> _t.Generator[str, None, None]:
     for string in strings:
         if isinstance(string, str):
             yield string
         elif isinstance(string, _t.Sequence):
-            yield from flatten(string)
+            yield from flatten_str_seqs(string)
+        else:
+            raise TypeError(f'Expected str or Sequence, got {type(string)}')
+
+
+def flatten_generic[T](invals: T | _t.Sequence[T]):
+    for inval in invals:
+        if isinstance(inval, _t.Sequence):
+            yield from flatten_generic(inval)
+        else:
+            yield inval
 
 
 def one_in_other(obj: object, obj_var: str, compare_val: str):
@@ -39,7 +55,6 @@ def one_in_other(obj: object, obj_var: str, compare_val: str):
         return False
     ob_low = getattr(obj, obj_var).lower()
     return ob_low in compare_val.lower() or compare_val.lower() in ob_low
-
 
 
 def instance_log_str(instance: HasTitleOrName) -> str:
