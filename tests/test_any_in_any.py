@@ -2,8 +2,7 @@ from collections.abc import Collection
 
 import pytest
 
-from suppawt.compare import flatten_generic, handle_match, handle_match_bools, any_in_any
-
+from suppawt.compare import flatten_generic, handle_match, handle_match_bools, any_in_any, Nested2
 
 
 def test_different_kinds_of_sequences():
