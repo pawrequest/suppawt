@@ -50,7 +50,7 @@ class OutlookHandlerMultipleAttachments(EmailHandlerMultipleAttachments):
     Email handler for Outlook
     """
 
-    def send_email(self, email: EmailMultipleAttachments):
+    def create_open_email(self, email: EmailMultipleAttachments):
         """
         Send email via Outlook
 
