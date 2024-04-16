@@ -21,7 +21,7 @@ class EmailHandlerMultipleAttachments(ABC):
     """
 
     @abstractmethod
-    def send_email(self, email: EmailMultipleAttachments) -> None:
+    def create_open_email(self, email: EmailMultipleAttachments) -> None:
         ...
 
 
@@ -50,7 +50,7 @@ class EmailMultipleAttachments:
             self.attachment_paths = []
 
     def send(self, sender: EmailHandlerMultipleAttachments) -> None:
-        sender.send_email(self)
+        sender.create_open_email(self)
 
 
 class EmailError(Exception):
