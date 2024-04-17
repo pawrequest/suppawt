@@ -20,9 +20,6 @@ fast = [
     'uvicorn[standard]',
     "sqlmodel",
 ]
-from-git = [
-    'fastuipr @git+https://github.com/pawrequest/fastuipr',
-]
 html = [
     "aiohttp",
     "beautifulsoup4",
