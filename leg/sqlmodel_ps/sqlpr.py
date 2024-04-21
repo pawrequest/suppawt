@@ -8,7 +8,7 @@ from loguru import logger
 from pydantic import BaseModel
 from sqlmodel import Session, SQLModel, select
 
-from ..get_set import get_hash, snake_name, snake_name_s, title_or_name_val, title_or_name_var
+from ..get_values import get_hash, snake_name, snake_name_s, title_or_name_val, title_or_name_var
 from ..misc_ps import instance_log_str, matches_str, one_in_other
 from ..types_ps import HasTitleOrName
 from ..types_ps.typ import HasGetHash

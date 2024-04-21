@@ -17,7 +17,7 @@ Misc stuff
 ###############
 Get and Set
 ###############
-.. automodule:: suppawt.get_set
+.. automodule:: suppawt.get_values
     :members:
     :private-members:
     :member-order: groupwise
