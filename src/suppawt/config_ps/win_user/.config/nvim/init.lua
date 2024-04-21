@@ -1,2 +1,0 @@
-require("prosody")
-print("Hello")
