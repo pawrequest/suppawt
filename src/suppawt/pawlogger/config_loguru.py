@@ -53,7 +53,7 @@ def log_fmt_local_terminal(record: loguru.Record) -> str:
     lvltext = f'<lvl>{record['level']: <7}</lvl>'
     msg_txt = f'<lvl>{record['message']}</lvl>'
     # msg_txt = f'{record['message']}'
-    return f"{lvltext} {category_txt} | {msg_txt} | {file_txt}\n"
+    return f'{lvltext} {category_txt} | {msg_txt} | {file_txt}\n'
 
 
 def get_terminal_format():
@@ -88,4 +88,4 @@ def log_fmt_server_terminal(record: logging.LogRecord) -> str:
     return f"<lvl>{record['level']: <7} </lvl>| {bot_says} | {file_line}\n"
 
 
-logger = get_loguru(profile="local")
+logger = get_loguru(profile='local')
