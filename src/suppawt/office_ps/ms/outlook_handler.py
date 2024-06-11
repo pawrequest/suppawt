@@ -9,11 +9,12 @@ from suppawt.office_ps.email_handler import (
 )
 
 
-def emailer(email: Email):
+def emailer(email: Email, html: bool = False):
     """
     Send email via Outlook
 
     :param email: Email object
+    :param html: bool indicating if email is HTML
     :return: None
     """
     try:
@@ -22,7 +23,10 @@ def emailer(email: Email):
         mail = outlook.CreateItem(0)
         mail.To = email.to_address
         mail.Subject = email.subject
-        mail.Body = email.body
+        if html:
+            mail.HTMLBody = email.body
+        else:
+            mail.Body = email.body
         for att_path in email.attachment_paths:
             mail.Attachments.Add(str(att_path))
             print('Added attachment')
