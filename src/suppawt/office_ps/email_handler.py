@@ -5,40 +5,40 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+# class EmailHandler(ABC):
+#     """
+#     Abstract class for handling emails
+#     """
+#
+#     @abstractmethod
+#     def send_email(self, email: Email) -> None:
+#         ...
+
+
 class EmailHandler(ABC):
     """
     Abstract class for handling emails
     """
 
     @abstractmethod
-    def send_email(self, email: Email) -> None:
+    def create_open_email(self, email: Email) -> None:
         ...
 
 
-class EmailHandlerMultipleAttachments(ABC):
-    """
-    Abstract class for handling emails
-    """
-
-    @abstractmethod
-    def create_open_email(self, email: EmailMultipleAttachments) -> None:
-        ...
+# @dataclass
+# class Email:
+#     """Dataclass representing an email"""
+#     to_address: str
+#     subject: str
+#     body: str
+#     attachment_path: Path or None = None
+#
+#     def send(self, sender: EmailHandler) -> None:
+#         sender.send_email(self)
 
 
 @dataclass
 class Email:
-    """Dataclass representing an email"""
-    to_address: str
-    subject: str
-    body: str
-    attachment_path: Path or None = None
-
-    def send(self, sender: EmailHandler) -> None:
-        sender.send_email(self)
-
-
-@dataclass
-class EmailMultipleAttachments:
     """Dataclass representing an email"""
     to_address: str
     subject: str
@@ -49,7 +49,7 @@ class EmailMultipleAttachments:
         if self.attachment_paths is None:
             self.attachment_paths = []
 
-    def send(self, sender: EmailHandlerMultipleAttachments) -> None:
+    def send(self, sender: EmailHandler) -> None:
         sender.create_open_email(self)
 
 
