@@ -34,6 +34,10 @@ office = [
     "comtypes",
     "pypdf",
 ]
+pdf = [
+    'pypdf',
+    'context-menu',
+]
 doc = [
     "sphinx",
     "sphinx-autodoc-typehints",
